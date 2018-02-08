@@ -1,12 +1,11 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-02-08T11:57:53
+# Project created by QtCreator 2018-02-08T14:03:27
 #
 #-------------------------------------------------
 
 QT       += core gui
 QT += sql
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Smart_Calendar

@@ -18,6 +18,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
@@ -35,6 +36,7 @@ public:
     QPushButton *cb_back;
     QLabel *cl_label1;
     QPushButton *cb_add;
+    QTableWidget *ct_table;
     QWidget *add;
     QPushButton *ab_back;
     QLabel *al_label1;
@@ -522,6 +524,9 @@ public:
         cb_add = new QPushButton(calendar);
         cb_add->setObjectName(QStringLiteral("cb_add"));
         cb_add->setGeometry(QRect(10, 10, 84, 28));
+        ct_table = new QTableWidget(calendar);
+        ct_table->setObjectName(QStringLiteral("ct_table"));
+        ct_table->setGeometry(QRect(10, 40, 731, 331));
         stackedWidget->addWidget(calendar);
         add = new QWidget();
         add->setObjectName(QStringLiteral("add"));

@@ -539,6 +539,16 @@ p, li { white-space: pre-wrap; }
        <string>Add Task</string>
       </property>
      </widget>
+     <widget class="QTableWidget" name="ct_table">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>731</width>
+        <height>331</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="add">
      <widget class="QPushButton" name="ab_back">

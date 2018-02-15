@@ -25,6 +25,7 @@ private slots:
     void on_hb_view_clicked();
 
     //CALENDAR
+    void UpdateCalendarTable();
     void on_cb_back_clicked();
     void on_cb_add_clicked();
 
@@ -35,8 +36,12 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QString dayStr;
-    int day;
-    int hour;
+    int curDay;
+    int prevDay;
+    int daysPassed;
+    int prevHour;
+    int hoursPassed;
+    int curTotalHours;
     int countHrs;
 };
 

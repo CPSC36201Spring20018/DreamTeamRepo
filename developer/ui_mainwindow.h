@@ -13,12 +13,15 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
@@ -37,9 +40,51 @@ public:
     QLabel *cl_label1;
     QPushButton *cb_add;
     QTableWidget *ct_table;
+    QTextBrowser *ct_time;
+    QLabel *label;
     QWidget *add;
     QPushButton *ab_back;
     QLabel *al_label1;
+    QWidget *gridLayoutWidget;
+    QGridLayout *gridLayout;
+    QLabel *label_4;
+    QComboBox *a_monFrom;
+    QLabel *label_13;
+    QLabel *label_18;
+    QComboBox *a_satTo;
+    QLabel *label_10;
+    QLabel *label_14;
+    QLabel *label_12;
+    QComboBox *a_satFrom;
+    QComboBox *a_tueFrom;
+    QComboBox *a_wedFrom;
+    QComboBox *a_sunFrom;
+    QComboBox *a_wedTo;
+    QComboBox *a_thuTo;
+    QLabel *label_2;
+    QComboBox *a_thuFrom;
+    QLabel *label_17;
+    QComboBox *a_sunTo;
+    QLabel *label_9;
+    QLabel *label_8;
+    QLabel *label_11;
+    QLabel *label_15;
+    QComboBox *a_tueTo;
+    QComboBox *a_friFrom;
+    QLabel *label_25;
+    QComboBox *a_monTo;
+    QComboBox *a_friTo;
+    QLabel *label_24;
+    QLabel *label_3;
+    QLabel *label_16;
+    QLabel *label_19;
+    QLabel *label_21;
+    QLabel *label_5;
+    QLabel *label_20;
+    QLabel *label_23;
+    QLabel *label_22;
+    QTextBrowser *a_monTo_2;
+    QLabel *label_6;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -523,10 +568,16 @@ public:
         cl_label1->setGeometry(QRect(350, 10, 63, 20));
         cb_add = new QPushButton(calendar);
         cb_add->setObjectName(QStringLiteral("cb_add"));
-        cb_add->setGeometry(QRect(10, 10, 84, 28));
+        cb_add->setGeometry(QRect(660, 10, 84, 28));
         ct_table = new QTableWidget(calendar);
         ct_table->setObjectName(QStringLiteral("ct_table"));
         ct_table->setGeometry(QRect(10, 40, 731, 331));
+        ct_time = new QTextBrowser(calendar);
+        ct_time->setObjectName(QStringLiteral("ct_time"));
+        ct_time->setGeometry(QRect(110, 10, 191, 31));
+        label = new QLabel(calendar);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(10, 10, 91, 20));
         stackedWidget->addWidget(calendar);
         add = new QWidget();
         add->setObjectName(QStringLiteral("add"));
@@ -536,10 +587,210 @@ public:
         al_label1 = new QLabel(add);
         al_label1->setObjectName(QStringLiteral("al_label1"));
         al_label1->setGeometry(QRect(350, 10, 63, 20));
+        gridLayoutWidget = new QWidget(add);
+        gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
+        gridLayoutWidget->setGeometry(QRect(60, 120, 600, 187));
+        gridLayout = new QGridLayout(gridLayoutWidget);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setContentsMargins(0, 0, 0, 0);
+        label_4 = new QLabel(gridLayoutWidget);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        gridLayout->addWidget(label_4, 1, 2, 1, 1);
+
+        a_monFrom = new QComboBox(gridLayoutWidget);
+        a_monFrom->setObjectName(QStringLiteral("a_monFrom"));
+
+        gridLayout->addWidget(a_monFrom, 2, 1, 1, 1);
+
+        label_13 = new QLabel(gridLayoutWidget);
+        label_13->setObjectName(QStringLiteral("label_13"));
+
+        gridLayout->addWidget(label_13, 3, 5, 1, 1);
+
+        label_18 = new QLabel(gridLayoutWidget);
+        label_18->setObjectName(QStringLiteral("label_18"));
+
+        gridLayout->addWidget(label_18, 2, 0, 1, 1);
+
+        a_satTo = new QComboBox(gridLayoutWidget);
+        a_satTo->setObjectName(QStringLiteral("a_satTo"));
+
+        gridLayout->addWidget(a_satTo, 4, 6, 1, 1);
+
+        label_10 = new QLabel(gridLayoutWidget);
+        label_10->setObjectName(QStringLiteral("label_10"));
+
+        gridLayout->addWidget(label_10, 1, 4, 1, 1);
+
+        label_14 = new QLabel(gridLayoutWidget);
+        label_14->setObjectName(QStringLiteral("label_14"));
+
+        gridLayout->addWidget(label_14, 1, 6, 1, 1);
+
+        label_12 = new QLabel(gridLayoutWidget);
+        label_12->setObjectName(QStringLiteral("label_12"));
+
+        gridLayout->addWidget(label_12, 1, 5, 1, 1);
+
+        a_satFrom = new QComboBox(gridLayoutWidget);
+        a_satFrom->setObjectName(QStringLiteral("a_satFrom"));
+
+        gridLayout->addWidget(a_satFrom, 2, 6, 1, 1);
+
+        a_tueFrom = new QComboBox(gridLayoutWidget);
+        a_tueFrom->setObjectName(QStringLiteral("a_tueFrom"));
+
+        gridLayout->addWidget(a_tueFrom, 2, 2, 1, 1);
+
+        a_wedFrom = new QComboBox(gridLayoutWidget);
+        a_wedFrom->setObjectName(QStringLiteral("a_wedFrom"));
+
+        gridLayout->addWidget(a_wedFrom, 2, 3, 1, 1);
+
+        a_sunFrom = new QComboBox(gridLayoutWidget);
+        a_sunFrom->setObjectName(QStringLiteral("a_sunFrom"));
+
+        gridLayout->addWidget(a_sunFrom, 2, 7, 1, 1);
+
+        a_wedTo = new QComboBox(gridLayoutWidget);
+        a_wedTo->setObjectName(QStringLiteral("a_wedTo"));
+
+        gridLayout->addWidget(a_wedTo, 4, 3, 1, 1);
+
+        a_thuTo = new QComboBox(gridLayoutWidget);
+        a_thuTo->setObjectName(QStringLiteral("a_thuTo"));
+
+        gridLayout->addWidget(a_thuTo, 4, 4, 1, 1);
+
+        label_2 = new QLabel(gridLayoutWidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        gridLayout->addWidget(label_2, 1, 1, 1, 1);
+
+        a_thuFrom = new QComboBox(gridLayoutWidget);
+        a_thuFrom->setObjectName(QStringLiteral("a_thuFrom"));
+
+        gridLayout->addWidget(a_thuFrom, 2, 4, 1, 1);
+
+        label_17 = new QLabel(gridLayoutWidget);
+        label_17->setObjectName(QStringLiteral("label_17"));
+
+        gridLayout->addWidget(label_17, 3, 7, 1, 1);
+
+        a_sunTo = new QComboBox(gridLayoutWidget);
+        a_sunTo->setObjectName(QStringLiteral("a_sunTo"));
+
+        gridLayout->addWidget(a_sunTo, 4, 7, 1, 1);
+
+        label_9 = new QLabel(gridLayoutWidget);
+        label_9->setObjectName(QStringLiteral("label_9"));
+
+        gridLayout->addWidget(label_9, 3, 3, 1, 1);
+
+        label_8 = new QLabel(gridLayoutWidget);
+        label_8->setObjectName(QStringLiteral("label_8"));
+
+        gridLayout->addWidget(label_8, 1, 3, 1, 1);
+
+        label_11 = new QLabel(gridLayoutWidget);
+        label_11->setObjectName(QStringLiteral("label_11"));
+
+        gridLayout->addWidget(label_11, 3, 4, 1, 1);
+
+        label_15 = new QLabel(gridLayoutWidget);
+        label_15->setObjectName(QStringLiteral("label_15"));
+
+        gridLayout->addWidget(label_15, 3, 6, 1, 1);
+
+        a_tueTo = new QComboBox(gridLayoutWidget);
+        a_tueTo->setObjectName(QStringLiteral("a_tueTo"));
+
+        gridLayout->addWidget(a_tueTo, 4, 2, 1, 1);
+
+        a_friFrom = new QComboBox(gridLayoutWidget);
+        a_friFrom->setObjectName(QStringLiteral("a_friFrom"));
+
+        gridLayout->addWidget(a_friFrom, 2, 5, 1, 1);
+
+        label_25 = new QLabel(gridLayoutWidget);
+        label_25->setObjectName(QStringLiteral("label_25"));
+
+        gridLayout->addWidget(label_25, 0, 7, 1, 1);
+
+        a_monTo = new QComboBox(gridLayoutWidget);
+        a_monTo->setObjectName(QStringLiteral("a_monTo"));
+
+        gridLayout->addWidget(a_monTo, 4, 1, 1, 1);
+
+        a_friTo = new QComboBox(gridLayoutWidget);
+        a_friTo->setObjectName(QStringLiteral("a_friTo"));
+
+        gridLayout->addWidget(a_friTo, 4, 5, 1, 1);
+
+        label_24 = new QLabel(gridLayoutWidget);
+        label_24->setObjectName(QStringLiteral("label_24"));
+
+        gridLayout->addWidget(label_24, 0, 6, 1, 1);
+
+        label_3 = new QLabel(gridLayoutWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+
+        gridLayout->addWidget(label_3, 3, 1, 1, 1);
+
+        label_16 = new QLabel(gridLayoutWidget);
+        label_16->setObjectName(QStringLiteral("label_16"));
+
+        gridLayout->addWidget(label_16, 1, 7, 1, 1);
+
+        label_19 = new QLabel(gridLayoutWidget);
+        label_19->setObjectName(QStringLiteral("label_19"));
+
+        gridLayout->addWidget(label_19, 0, 1, 1, 1);
+
+        label_21 = new QLabel(gridLayoutWidget);
+        label_21->setObjectName(QStringLiteral("label_21"));
+
+        gridLayout->addWidget(label_21, 0, 3, 1, 1);
+
+        label_5 = new QLabel(gridLayoutWidget);
+        label_5->setObjectName(QStringLiteral("label_5"));
+
+        gridLayout->addWidget(label_5, 3, 2, 1, 1);
+
+        label_20 = new QLabel(gridLayoutWidget);
+        label_20->setObjectName(QStringLiteral("label_20"));
+
+        gridLayout->addWidget(label_20, 0, 2, 1, 1);
+
+        label_23 = new QLabel(gridLayoutWidget);
+        label_23->setObjectName(QStringLiteral("label_23"));
+
+        gridLayout->addWidget(label_23, 0, 5, 1, 1);
+
+        label_22 = new QLabel(gridLayoutWidget);
+        label_22->setObjectName(QStringLiteral("label_22"));
+
+        gridLayout->addWidget(label_22, 0, 4, 1, 1);
+
         stackedWidget->addWidget(add);
+        ab_back->raise();
+        al_label1->raise();
+        gridLayoutWidget->raise();
+        a_monTo_2 = new QTextBrowser(centralWidget);
+        a_monTo_2->setObjectName(QStringLiteral("a_monTo_2"));
+        a_monTo_2->setGeometry(QRect(650, 483, 439, 66));
+        label_6 = new QLabel(centralWidget);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setGeometry(QRect(650, 457, 439, 20));
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
+
+        stackedWidget->setCurrentIndex(2);
+
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -556,8 +807,32 @@ public:
         cb_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
         cl_label1->setText(QApplication::translate("MainWindow", "Calendar", Q_NULLPTR));
         cb_add->setText(QApplication::translate("MainWindow", "Add Task", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "Current Time:", Q_NULLPTR));
         ab_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
         al_label1->setText(QApplication::translate("MainWindow", "Add Task", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
+        label_13->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
+        label_18->setText(QApplication::translate("MainWindow", "Hours Free", Q_NULLPTR));
+        label_10->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
+        label_14->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
+        label_12->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
+        label_2->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
+        label_17->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
+        label_9->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
+        label_8->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
+        label_11->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
+        label_15->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
+        label_25->setText(QApplication::translate("MainWindow", "SUN", Q_NULLPTR));
+        label_24->setText(QApplication::translate("MainWindow", "SAT", Q_NULLPTR));
+        label_3->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
+        label_16->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
+        label_19->setText(QApplication::translate("MainWindow", "MON", Q_NULLPTR));
+        label_21->setText(QApplication::translate("MainWindow", "WED", Q_NULLPTR));
+        label_5->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
+        label_20->setText(QApplication::translate("MainWindow", "TUE", Q_NULLPTR));
+        label_23->setText(QApplication::translate("MainWindow", "FRI", Q_NULLPTR));
+        label_22->setText(QApplication::translate("MainWindow", "THU", Q_NULLPTR));
+        label_6->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
     } // retranslateUi
 
 };

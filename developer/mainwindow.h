@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QtSql>
+#include <QMessageBox>
+#include "project.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,32 +18,44 @@ class MainWindow : public QMainWindow {
         ~MainWindow();
 
     private slots:
-        void InitializeDb();                //Initialize database
-        void SearchDb();                    //Search the database
+        void InitializeDb();            //initialize database
+        void SearchDb();                //search the database
 
         //HOME
-        void on_hb_view_clicked();      //Home page: button view calendar clicked
+        void on_hb_view_clicked();      //button view calendar clicked
 
         //CALENDAR
-        void UpdateCalendarTable();     //Update calendar with current hour
-        void on_cb_back_clicked();      //Calendar page: button back clicked
-        void on_cb_add_clicked();       //Calendar page: button add clicked
+        void UpdateCalendarTable();     //update calendar with current hour
+        void UpdateProjectsTable();     //update projects table
+        void on_cb_set_clicked();       //button add clicked
+        void on_cb_add_clicked();       //button add clicked
+        void on_cb_back_clicked();      //button back clicked
+
+        //SET HOURS
+        void UpdateComboBox();          //updates hours in combo boxes
+        void on_sb_apply_clicked();     //button apply clicked
+        void on_sb_back_clicked();      //button back clicked
 
         //ADD TASK
-        void on_ab_back_clicked();      //Add task page: button back clicked
+        bool isNumber(const QString& str);
+        void on_ab_add_clicked();       //button add clicked
+        void on_ab_back_clicked();      //button back clicked
 
     private:
-        Ui::MainWindow *ui;
-        QSqlDatabase db;                //Database
+        Ui::MainWindow *ui;             //ui elements
+        QSqlDatabase db;                //database
         QTimer *timer;                  //time to auto-update
-        QString dayStr;                 //String of day: "Mon", "Tue", etc.
-        int countHrs;                   //Used in calculation for counting hours
-        int curDay;                     //Current day int: 0=Mon, 1-Tue, etc.
-        int prevDay;                    //Previous day int: 0=Mon, 1-Tue, etc.
-        int curTotalHours;              //Total hours currently from start of week
-        int prevTotalHours;             //Total hours of previous update from start of week
-        int daysPassed;                 //Days passed between previous update and now
-        int hoursPassed;                //Hours passed between previous update and now
+
+        QList <Project> projectList;    //project list (contains project objects)
+
+        QString dayStr;                 //string of day: "Mon", "Tue", etc.
+        int countHrs;                   //used in calculation for counting hours
+        int curDay;                     //current day int: 0=Mon, 1-Tue, etc.
+        int prevDay;                    //previous day int: 0=Mon, 1-Tue, etc.
+        int curTotalHours;              //total hours currently from start of week
+        int prevTotalHours;             //total hours of previous update from start of week
+        int daysPassed;                 //days passed between previous update and now
+        int hoursPassed;                //hours passed between previous update and now
 };
 
 #endif // MAINWINDOW_H

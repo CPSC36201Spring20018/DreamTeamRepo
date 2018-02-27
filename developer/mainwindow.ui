@@ -506,9 +506,9 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="cb_back">
       <property name="geometry">
        <rect>
-        <x>703</x>
+        <x>660</x>
         <y>370</y>
-        <width>41</width>
+        <width>81</width>
         <height>28</height>
        </rect>
       </property>
@@ -516,7 +516,7 @@ p, li { white-space: pre-wrap; }
        <string>Back</string>
       </property>
      </widget>
-     <widget class="QLabel" name="cl_label1">
+     <widget class="QLabel" name="label1">
       <property name="geometry">
        <rect>
         <x>350</x>
@@ -547,7 +547,7 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>10</x>
         <y>40</y>
-        <width>731</width>
+        <width>531</width>
         <height>331</height>
        </rect>
       </property>
@@ -575,14 +575,50 @@ p, li { white-space: pre-wrap; }
        <string>Current Time:</string>
       </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="add">
-     <widget class="QPushButton" name="ab_back">
+     <widget class="QPushButton" name="cb_set">
       <property name="geometry">
        <rect>
-        <x>700</x>
+        <x>550</x>
+        <y>10</y>
+        <width>84</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Set Hours</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_29">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>60</y>
+        <width>71</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PROJECTS</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="ct_projects">
+      <property name="geometry">
+       <rect>
+        <x>545</x>
+        <y>80</y>
+        <width>201</width>
+        <height>291</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="set">
+     <widget class="QPushButton" name="sb_back">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
         <y>370</y>
-        <width>41</width>
+        <width>81</width>
         <height>28</height>
        </rect>
       </property>
@@ -590,24 +626,24 @@ p, li { white-space: pre-wrap; }
        <string>Back</string>
       </property>
      </widget>
-     <widget class="QLabel" name="al_label1">
+     <widget class="QLabel" name="sc_label1">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>330</x>
         <y>10</y>
-        <width>63</width>
+        <width>101</width>
         <height>20</height>
        </rect>
       </property>
       <property name="text">
-       <string>Add Task</string>
+       <string>Set Hours Free</string>
       </property>
      </widget>
      <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>120</y>
+        <x>50</x>
+        <y>90</y>
         <width>600</width>
         <height>187</height>
        </rect>
@@ -621,7 +657,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QComboBox" name="a_monFrom"/>
+        <widget class="QComboBox" name="sc_monFrom"/>
        </item>
        <item row="3" column="5">
         <widget class="QLabel" name="label_13">
@@ -638,7 +674,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="4" column="6">
-        <widget class="QComboBox" name="a_satTo"/>
+        <widget class="QComboBox" name="sc_satTo"/>
        </item>
        <item row="1" column="4">
         <widget class="QLabel" name="label_10">
@@ -662,22 +698,22 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="2" column="6">
-        <widget class="QComboBox" name="a_satFrom"/>
+        <widget class="QComboBox" name="sc_satFrom"/>
        </item>
        <item row="2" column="2">
-        <widget class="QComboBox" name="a_tueFrom"/>
+        <widget class="QComboBox" name="sc_tueFrom"/>
        </item>
        <item row="2" column="3">
-        <widget class="QComboBox" name="a_wedFrom"/>
+        <widget class="QComboBox" name="sc_wedFrom"/>
        </item>
        <item row="2" column="7">
-        <widget class="QComboBox" name="a_sunFrom"/>
+        <widget class="QComboBox" name="sc_sunFrom"/>
        </item>
        <item row="4" column="3">
-        <widget class="QComboBox" name="a_wedTo"/>
+        <widget class="QComboBox" name="sc_wedTo"/>
        </item>
        <item row="4" column="4">
-        <widget class="QComboBox" name="a_thuTo"/>
+        <widget class="QComboBox" name="sc_thuTo"/>
        </item>
        <item row="1" column="1">
         <widget class="QLabel" name="label_2">
@@ -687,7 +723,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="2" column="4">
-        <widget class="QComboBox" name="a_thuFrom"/>
+        <widget class="QComboBox" name="sc_thuFrom"/>
        </item>
        <item row="3" column="7">
         <widget class="QLabel" name="label_17">
@@ -697,7 +733,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="4" column="7">
-        <widget class="QComboBox" name="a_sunTo"/>
+        <widget class="QComboBox" name="sc_sunTo"/>
        </item>
        <item row="3" column="3">
         <widget class="QLabel" name="label_9">
@@ -728,10 +764,10 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="4" column="2">
-        <widget class="QComboBox" name="a_tueTo"/>
+        <widget class="QComboBox" name="sc_tueTo"/>
        </item>
        <item row="2" column="5">
-        <widget class="QComboBox" name="a_friFrom"/>
+        <widget class="QComboBox" name="sc_friFrom"/>
        </item>
        <item row="0" column="7">
         <widget class="QLabel" name="label_25">
@@ -741,10 +777,10 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QComboBox" name="a_monTo"/>
+        <widget class="QComboBox" name="sc_monTo"/>
        </item>
        <item row="4" column="5">
-        <widget class="QComboBox" name="a_friTo"/>
+        <widget class="QComboBox" name="sc_friTo"/>
        </item>
        <item row="0" column="6">
         <widget class="QLabel" name="label_24">
@@ -811,14 +847,102 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </widget>
-     <zorder>ab_back</zorder>
-     <zorder>al_label1</zorder>
-     <zorder>gridLayoutWidget</zorder>
-     <zorder>textBrowser_2</zorder>
-     <zorder>label_7</zorder>
-     <zorder>label_6</zorder>
-     <zorder>a_monFrom_2</zorder>
-     <zorder>a_monTo_2</zorder>
+     <widget class="QPushButton" name="sb_apply">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>310</y>
+        <width>84</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Apply</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="add">
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>10</y>
+        <width>63</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add Task</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="formLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>140</y>
+        <width>160</width>
+        <height>92</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>Name: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_27">
+         <property name="text">
+          <string>Description</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="al_name"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="al_desc"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="al_hours"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_28">
+         <property name="text">
+          <string>Total Hours</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="ab_back">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>370</y>
+        <width>84</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ab_add">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>260</y>
+        <width>84</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QTextBrowser" name="a_monTo_2">

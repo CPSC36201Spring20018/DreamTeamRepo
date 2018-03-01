@@ -9,7 +9,9 @@ Project::Project() {
     name = "";
     desc = "";
     totalHours = 0;
+    remHours = 0;
 }
+
 
 /*****************************************************************************
  * Project
@@ -20,7 +22,9 @@ Project::Project(QString name, QString desc, int totalHours) {
     this->name = name;
     this->desc = desc;
     this->totalHours = totalHours;
+    this->remHours = totalHours;
 }
+
 
 /*****************************************************************************
  * GetName
@@ -31,6 +35,7 @@ QString Project::GetName() const {
     return name;
 }
 
+
 /*****************************************************************************
  * GetDesc
  *____________________________________________________________________________
@@ -40,6 +45,7 @@ QString Project::GetDesc() const {
     return desc;
 }
 
+
 /*****************************************************************************
  * GetTotalHours
  *____________________________________________________________________________
@@ -47,4 +53,14 @@ QString Project::GetDesc() const {
  *****************************************************************************/
 int Project::GetTotalHours() const {
     return totalHours;
+}
+
+
+/*****************************************************************************
+ * GetRemHours
+ *____________________________________________________________________________
+ * This method will return the remaining hours left on the project.
+ *****************************************************************************/
+int Project::GetRemHours() const {
+    return remHours;
 }

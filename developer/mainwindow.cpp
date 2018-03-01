@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //Initialize database
     InitializeDb();
 
+    //Initializes free hours combo boxes
+    UpdateComboBox();
+
     //Creates a timer to auto-update InitializeDb function
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(InitializeDb()));
@@ -154,6 +157,11 @@ void MainWindow::on_hb_view_clicked() {
 }
 
 
+void MainWindow::on_hb_exit_clicked() {
+    QApplication::quit();
+}
+
+
 
 //C A L E N D A R   P A G E
 /*****************************************************************************
@@ -201,21 +209,27 @@ void MainWindow::UpdateCalendarTable() {
 }
 
 
+/*****************************************************************************
+ * UpdateProjectsTable
+ *____________________________________________________________________________
+ * This method will update the projects table with the name, hours, and
+ * description of all the added projects.
+ *****************************************************************************/
 void MainWindow::UpdateProjectsTable() {
     ui->ct_projects->setRowCount(projectList.count());
-    ui->ct_projects->setColumnCount(3);
+    ui->ct_projects->setColumnCount(4);
 
     ui->ct_projects->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
     ui->ct_projects->setHorizontalHeaderItem(1, new QTableWidgetItem("Hours"));
-    ui->ct_projects->setHorizontalHeaderItem(2, new QTableWidgetItem("Description"));
+    ui->ct_projects->setHorizontalHeaderItem(2, new QTableWidgetItem("Left"));
+    ui->ct_projects->setHorizontalHeaderItem(3, new QTableWidgetItem("Desc."));
 
     for (int i = 0; i < projectList.count(); i++) {
         qDebug() << projectList.at(i).GetName();
         ui->ct_projects->setItem(i, 0, new QTableWidgetItem(projectList.at(i).GetName()));
         ui->ct_projects->setItem(i, 1, new QTableWidgetItem(QString::number(projectList.at(i).GetTotalHours())));
-        ui->ct_projects->setItem(i, 2, new QTableWidgetItem(projectList.at(i).GetDesc()));
-
-        ui->ct_projects->setVerticalHeaderItem(i, new QTableWidgetItem(""));
+        ui->ct_projects->setItem(i, 2, new QTableWidgetItem(QString::number(projectList.at(i).GetRemHours())));
+        ui->ct_projects->setItem(i, 3, new QTableWidgetItem(projectList.at(i).GetDesc()));
     }
 
     ui->ct_projects->resizeColumnsToContents();
@@ -223,13 +237,22 @@ void MainWindow::UpdateProjectsTable() {
 
 
 void MainWindow::on_cb_set_clicked() {
-    UpdateComboBox();
     ui->stackedWidget->setCurrentIndex(2);
 }
 
 
 void MainWindow::on_cb_add_clicked() {
     ui->stackedWidget->setCurrentIndex(3);
+}
+
+
+/*****************************************************************************
+ * on_cb_auto_clicked
+ *____________________________________________________________________________
+ * This method will automatically schedule projects onto the calendar.
+ *****************************************************************************/
+void MainWindow::on_cb_auto_clicked() {
+
 }
 
 
@@ -247,9 +270,9 @@ void MainWindow::on_cb_back_clicked() {
  *****************************************************************************/
 void MainWindow::UpdateComboBox() {
     QStringList hourList;
-    hourList << "12 AM" << "1 AM" << "2 AM" << "3 AM" << "4 AM" << "5 AM" << "6 AM" << "7 AM" << "8 AM" << "9 AM"
-             << "10 AM" << "11 AM" << "12 PM" << "1 PM" << "2 PM" << "3 PM" << "4 PM" << "5 PM" << "6 PM" << "7 PM"
-             << "8 PM" << "9 PM" << "10 PM " << "11 PM";
+    hourList << "None" << "12 AM" << "1 AM" << "2 AM" << "3 AM" << "4 AM" << "5 AM" << "6 AM" << "7 AM" << "8 AM"
+             << "9 AM" << "10 AM" << "11 AM" << "12 PM" << "1 PM" << "2 PM" << "3 PM" << "4 PM" << "5 PM"
+             << "6 PM" << "7 PM" << "8 PM" << "9 PM" << "10 PM " << "11 PM";
     ui->sc_monFrom->insertItems(0,hourList);
     ui->sc_tueFrom->insertItems(0,hourList);
     ui->sc_wedFrom->insertItems(0,hourList);
@@ -268,9 +291,69 @@ void MainWindow::UpdateComboBox() {
 }
 
 
+/*****************************************************************************
+ * CheckFreeHours
+ *____________________________________________________________________________
+ * This method will check the free hours combo boxe and return whether it
+ * passed the checks or failed.
+ *      1: If either "to" or "from" is denoted "None", and if one has a time,
+ *         then post error.
+ *      2: If the "to" hour is higher than the "from" time, then post error.
+ *****************************************************************************/
+bool MainWindow::CheckFreeHours(QComboBox* from, QComboBox* to, QString comboDay) {
+    QMessageBox msgBox;
+
+    if ((to->itemText(from->currentIndex()) == "None"    &&
+         to->itemText(to->currentIndex()) != "None") ||
+        (to->itemText(to->currentIndex()) == "None"  &&
+         to->itemText(from->currentIndex()) != "None")) {
+        msgBox.setText("ERROR - Hours must be either all \"None\" or all hours for " + comboDay + "!");
+        msgBox.exec();
+    }
+    else if (from->currentIndex() > to->currentIndex()) {
+        msgBox.setText("ERROR - \"From\" hour must be less than \"To\" hour for " + comboDay + "!");
+        msgBox.exec();
+    }
+    else
+        return 1;
+    return 0;
+}
+
+void MainWindow::UpdateFreeDatabase(QComboBox* from, QComboBox* to, QString day) {
+    QSqlQuery query(db);
+    query.exec("UPDATE freeTime SET '" + day + "'='" + from->itemText(from->currentIndex()) + "' WHERE FROM_TO=1");
+    query.exec("UPDATE freeTime SET '" + day + "'='" + to->itemText(to->currentIndex()) + "' WHERE FROM_TO=2");
+}
+
+
+/*****************************************************************************
+ * on_sb_apply_clicked
+ *____________________________________________________________________________
+ * This method, when the apply button is clicked, will first error check the
+ * hours for errors. It will then update the user's free time on a seperate
+ * database.
+ *****************************************************************************/
 void MainWindow::on_sb_apply_clicked() {
-    UpdateCalendarTable();
-    ui->stackedWidget->setCurrentIndex(1);
+    if (CheckFreeHours(ui->sc_monFrom, ui->sc_monTo, "Monday")    &&
+        CheckFreeHours(ui->sc_tueFrom, ui->sc_tueTo, "Tuesday")   &&
+        CheckFreeHours(ui->sc_wedFrom, ui->sc_wedTo, "Wednesday") &&
+        CheckFreeHours(ui->sc_thuFrom, ui->sc_thuTo, "Thursday")  &&
+        CheckFreeHours(ui->sc_friFrom, ui->sc_friTo, "Friday")    &&
+        CheckFreeHours(ui->sc_satFrom, ui->sc_satTo, "Saturday")  &&
+        CheckFreeHours(ui->sc_sunFrom, ui->sc_sunTo, "Sunday")) {
+
+        //Updating
+        UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "MON");
+        UpdateFreeDatabase(ui->sc_tueFrom, ui->sc_tueTo, "TUE");
+        UpdateFreeDatabase(ui->sc_wedFrom, ui->sc_wedTo, "WED");
+        UpdateFreeDatabase(ui->sc_thuFrom, ui->sc_thuTo, "THU");
+        UpdateFreeDatabase(ui->sc_friFrom, ui->sc_friTo, "FRI");
+        UpdateFreeDatabase(ui->sc_satFrom, ui->sc_satTo, "SAT");
+        UpdateFreeDatabase(ui->sc_sunFrom, ui->sc_sunTo, "SUN");
+
+        UpdateCalendarTable();
+        ui->stackedWidget->setCurrentIndex(1);
+    }
 }
 
 
@@ -281,6 +364,11 @@ void MainWindow::on_sb_back_clicked() {
 
 
 // A D D   H O U R S   P A G E
+/*****************************************************************************
+ * isNumber
+ *____________________________________________________________________________
+ * This method checks of string is a positive whole number.
+ *****************************************************************************/
 bool MainWindow::isNumber(const QString& str) {
     QRegExp re("\\d*");
     return re.exactMatch(str);
@@ -298,8 +386,8 @@ bool MainWindow::isNumber(const QString& str) {
 void MainWindow::on_ab_add_clicked() {
     QMessageBox msgBox;
     QString setName = ui->al_name->text();
-    QString setDesc = ui->al_desc->text();
     QString setHours = ui->al_hours->text();
+    QString setDesc = ui->al_desc->text();
 
     if (setHours == "0") {
         msgBox.setText("ERROR - Hours should be at least 1!");
@@ -315,9 +403,13 @@ void MainWindow::on_ab_add_clicked() {
 
         for (int i = 0; i < projectList.count(); i++) {
             qDebug() << projectList.at(i).GetName();
-            qDebug() << projectList.at(i).GetDesc();
             qDebug() << projectList.at(i).GetTotalHours();
+            qDebug() << projectList.at(i).GetDesc();
         }
+
+        QSqlQuery query(db);
+        query.exec("INSERT INTO projects (NAME, HOURS, DESC) "
+                   "VALUES ('" + setName + "', '" + setHours + "', '" + setDesc + "')");
 
         UpdateCalendarTable();
         ui->stackedWidget->setCurrentIndex(1);

@@ -9,10 +9,12 @@ class Project {
         QString GetName() const;
         QString GetDesc() const;
         int GetTotalHours() const;
+        int GetRemHours() const;
     private:
         QString name;
         QString desc;
         int totalHours;
+        int remHours;
 };
 
 #endif

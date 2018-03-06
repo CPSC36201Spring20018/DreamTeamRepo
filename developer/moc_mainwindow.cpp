@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[26];
-    char stringdata0[356];
+    QByteArrayData data[29];
+    char stringdata0[411];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,32 +38,36 @@ QT_MOC_LITERAL(3, 25, 8), // "SearchDb"
 QT_MOC_LITERAL(4, 34, 18), // "on_hb_view_clicked"
 QT_MOC_LITERAL(5, 53, 18), // "on_hb_exit_clicked"
 QT_MOC_LITERAL(6, 72, 19), // "UpdateCalendarTable"
-QT_MOC_LITERAL(7, 92, 19), // "UpdateProjectsTable"
-QT_MOC_LITERAL(8, 112, 17), // "on_cb_set_clicked"
-QT_MOC_LITERAL(9, 130, 17), // "on_cb_add_clicked"
-QT_MOC_LITERAL(10, 148, 18), // "on_cb_auto_clicked"
-QT_MOC_LITERAL(11, 167, 18), // "on_cb_back_clicked"
-QT_MOC_LITERAL(12, 186, 14), // "UpdateComboBox"
-QT_MOC_LITERAL(13, 201, 14), // "CheckFreeHours"
-QT_MOC_LITERAL(14, 216, 10), // "QComboBox*"
-QT_MOC_LITERAL(15, 227, 4), // "from"
-QT_MOC_LITERAL(16, 232, 2), // "to"
-QT_MOC_LITERAL(17, 235, 8), // "comboDay"
-QT_MOC_LITERAL(18, 244, 18), // "UpdateFreeDatabase"
-QT_MOC_LITERAL(19, 263, 3), // "day"
-QT_MOC_LITERAL(20, 267, 19), // "on_sb_apply_clicked"
-QT_MOC_LITERAL(21, 287, 18), // "on_sb_back_clicked"
-QT_MOC_LITERAL(22, 306, 8), // "isNumber"
-QT_MOC_LITERAL(23, 315, 3), // "str"
-QT_MOC_LITERAL(24, 319, 17), // "on_ab_add_clicked"
-QT_MOC_LITERAL(25, 337, 18) // "on_ab_back_clicked"
+QT_MOC_LITERAL(7, 92, 22), // "UpdateUnscheduledTable"
+QT_MOC_LITERAL(8, 115, 20), // "UpdateScheduledTable"
+QT_MOC_LITERAL(9, 136, 20), // "onUnscheduledClicked"
+QT_MOC_LITERAL(10, 157, 5), // "value"
+QT_MOC_LITERAL(11, 163, 17), // "on_cb_set_clicked"
+QT_MOC_LITERAL(12, 181, 17), // "on_cb_add_clicked"
+QT_MOC_LITERAL(13, 199, 22), // "on_cb_schedule_clicked"
+QT_MOC_LITERAL(14, 222, 18), // "on_cb_back_clicked"
+QT_MOC_LITERAL(15, 241, 14), // "UpdateComboBox"
+QT_MOC_LITERAL(16, 256, 14), // "CheckFreeHours"
+QT_MOC_LITERAL(17, 271, 10), // "QComboBox*"
+QT_MOC_LITERAL(18, 282, 4), // "from"
+QT_MOC_LITERAL(19, 287, 2), // "to"
+QT_MOC_LITERAL(20, 290, 8), // "comboDay"
+QT_MOC_LITERAL(21, 299, 18), // "UpdateFreeDatabase"
+QT_MOC_LITERAL(22, 318, 3), // "day"
+QT_MOC_LITERAL(23, 322, 19), // "on_sb_apply_clicked"
+QT_MOC_LITERAL(24, 342, 18), // "on_sb_back_clicked"
+QT_MOC_LITERAL(25, 361, 8), // "isNumber"
+QT_MOC_LITERAL(26, 370, 3), // "str"
+QT_MOC_LITERAL(27, 374, 17), // "on_ab_add_clicked"
+QT_MOC_LITERAL(28, 392, 18) // "on_ab_back_clicked"
 
     },
     "MainWindow\0InitializeDb\0\0SearchDb\0"
     "on_hb_view_clicked\0on_hb_exit_clicked\0"
-    "UpdateCalendarTable\0UpdateProjectsTable\0"
-    "on_cb_set_clicked\0on_cb_add_clicked\0"
-    "on_cb_auto_clicked\0on_cb_back_clicked\0"
+    "UpdateCalendarTable\0UpdateUnscheduledTable\0"
+    "UpdateScheduledTable\0onUnscheduledClicked\0"
+    "value\0on_cb_set_clicked\0on_cb_add_clicked\0"
+    "on_cb_schedule_clicked\0on_cb_back_clicked\0"
     "UpdateComboBox\0CheckFreeHours\0QComboBox*\0"
     "from\0to\0comboDay\0UpdateFreeDatabase\0"
     "day\0on_sb_apply_clicked\0on_sb_back_clicked\0"
@@ -78,7 +82,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      18,   14, // methods
+      20,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -86,24 +90,26 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  104,    2, 0x08 /* Private */,
-       3,    0,  105,    2, 0x08 /* Private */,
-       4,    0,  106,    2, 0x08 /* Private */,
-       5,    0,  107,    2, 0x08 /* Private */,
-       6,    0,  108,    2, 0x08 /* Private */,
-       7,    0,  109,    2, 0x08 /* Private */,
-       8,    0,  110,    2, 0x08 /* Private */,
-       9,    0,  111,    2, 0x08 /* Private */,
-      10,    0,  112,    2, 0x08 /* Private */,
-      11,    0,  113,    2, 0x08 /* Private */,
-      12,    0,  114,    2, 0x08 /* Private */,
-      13,    3,  115,    2, 0x08 /* Private */,
-      18,    3,  122,    2, 0x08 /* Private */,
-      20,    0,  129,    2, 0x08 /* Private */,
-      21,    0,  130,    2, 0x08 /* Private */,
-      22,    1,  131,    2, 0x08 /* Private */,
-      24,    0,  134,    2, 0x08 /* Private */,
-      25,    0,  135,    2, 0x08 /* Private */,
+       1,    0,  114,    2, 0x08 /* Private */,
+       3,    0,  115,    2, 0x08 /* Private */,
+       4,    0,  116,    2, 0x08 /* Private */,
+       5,    0,  117,    2, 0x08 /* Private */,
+       6,    0,  118,    2, 0x08 /* Private */,
+       7,    0,  119,    2, 0x08 /* Private */,
+       8,    0,  120,    2, 0x08 /* Private */,
+       9,    1,  121,    2, 0x08 /* Private */,
+      11,    0,  124,    2, 0x08 /* Private */,
+      12,    0,  125,    2, 0x08 /* Private */,
+      13,    0,  126,    2, 0x08 /* Private */,
+      14,    0,  127,    2, 0x08 /* Private */,
+      15,    0,  128,    2, 0x08 /* Private */,
+      16,    3,  129,    2, 0x08 /* Private */,
+      21,    3,  136,    2, 0x08 /* Private */,
+      23,    0,  143,    2, 0x08 /* Private */,
+      24,    0,  144,    2, 0x08 /* Private */,
+      25,    1,  145,    2, 0x08 /* Private */,
+      27,    0,  148,    2, 0x08 /* Private */,
+      28,    0,  149,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -113,15 +119,17 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QModelIndex,   10,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Bool, 0x80000000 | 14, 0x80000000 | 14, QMetaType::QString,   15,   16,   17,
-    QMetaType::Void, 0x80000000 | 14, 0x80000000 | 14, QMetaType::QString,   15,   16,   19,
+    QMetaType::Void,
+    QMetaType::Bool, 0x80000000 | 17, 0x80000000 | 17, QMetaType::QString,   18,   19,   20,
+    QMetaType::Void, 0x80000000 | 17, 0x80000000 | 17, QMetaType::QString,   18,   19,   22,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Bool, QMetaType::QString,   23,
+    QMetaType::Bool, QMetaType::QString,   26,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -139,27 +147,29 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->on_hb_view_clicked(); break;
         case 3: _t->on_hb_exit_clicked(); break;
         case 4: _t->UpdateCalendarTable(); break;
-        case 5: _t->UpdateProjectsTable(); break;
-        case 6: _t->on_cb_set_clicked(); break;
-        case 7: _t->on_cb_add_clicked(); break;
-        case 8: _t->on_cb_auto_clicked(); break;
-        case 9: _t->on_cb_back_clicked(); break;
-        case 10: _t->UpdateComboBox(); break;
-        case 11: { bool _r = _t->CheckFreeHours((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])));
+        case 5: _t->UpdateUnscheduledTable(); break;
+        case 6: _t->UpdateScheduledTable(); break;
+        case 7: _t->onUnscheduledClicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 8: _t->on_cb_set_clicked(); break;
+        case 9: _t->on_cb_add_clicked(); break;
+        case 10: _t->on_cb_schedule_clicked(); break;
+        case 11: _t->on_cb_back_clicked(); break;
+        case 12: _t->UpdateComboBox(); break;
+        case 13: { bool _r = _t->CheckFreeHours((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 12: _t->UpdateFreeDatabase((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
-        case 13: _t->on_sb_apply_clicked(); break;
-        case 14: _t->on_sb_back_clicked(); break;
-        case 15: { bool _r = _t->isNumber((*reinterpret_cast< const QString(*)>(_a[1])));
+        case 14: _t->UpdateFreeDatabase((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 15: _t->on_sb_apply_clicked(); break;
+        case 16: _t->on_sb_back_clicked(); break;
+        case 17: { bool _r = _t->isNumber((*reinterpret_cast< const QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 16: _t->on_ab_add_clicked(); break;
-        case 17: _t->on_ab_back_clicked(); break;
+        case 18: _t->on_ab_add_clicked(); break;
+        case 19: _t->on_ab_back_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 11:
+        case 13:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 1:
@@ -167,7 +177,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QComboBox* >(); break;
             }
             break;
-        case 12:
+        case 14:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 1:
@@ -204,13 +214,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 18)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 20;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 18)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 20;
     }
     return _id;
 }

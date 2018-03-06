@@ -39,16 +39,17 @@ public:
     QTextEdit *textEdit;
     QPushButton *hb_exit;
     QWidget *calendar;
-    QPushButton *cb_back;
-    QLabel *label1;
     QPushButton *cb_add;
     QTableWidget *ct_table;
     QTextBrowser *ct_time;
     QLabel *label;
     QPushButton *cb_set;
     QLabel *label_29;
-    QTableWidget *ct_projects;
-    QPushButton *cb_auto;
+    QTableWidget *ct_scheduled;
+    QPushButton *cb_schedule;
+    QPushButton *cb_back;
+    QLabel *label_30;
+    QTableWidget *ct_unscheduled;
     QWidget *set;
     QPushButton *sb_back;
     QLabel *sc_label1;
@@ -103,14 +104,12 @@ public:
     QLabel *label_28;
     QPushButton *ab_back;
     QPushButton *ab_add;
-    QTextBrowser *a_monTo_2;
-    QLabel *label_6;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(748, 403);
+        MainWindow->resize(950, 470);
         MainWindow->setStyleSheet(QLatin1String("QToolTip\n"
 "{\n"
 "     border: 1px solid black;\n"
@@ -568,33 +567,27 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         stackedWidget = new QStackedWidget(centralWidget);
         stackedWidget->setObjectName(QStringLiteral("stackedWidget"));
-        stackedWidget->setGeometry(QRect(0, 0, 751, 401));
+        stackedWidget->setGeometry(QRect(0, 0, 950, 470));
         home = new QWidget();
         home->setObjectName(QStringLiteral("home"));
         hb_view = new QPushButton(home);
         hb_view->setObjectName(QStringLiteral("hb_view"));
-        hb_view->setGeometry(QRect(300, 160, 161, 71));
+        hb_view->setGeometry(QRect(400, 160, 161, 71));
         textEdit = new QTextEdit(home);
         textEdit->setObjectName(QStringLiteral("textEdit"));
-        textEdit->setGeometry(QRect(270, 0, 231, 51));
+        textEdit->setGeometry(QRect(360, 0, 231, 51));
         hb_exit = new QPushButton(home);
         hb_exit->setObjectName(QStringLiteral("hb_exit"));
-        hb_exit->setGeometry(QRect(340, 340, 84, 28));
+        hb_exit->setGeometry(QRect(440, 340, 84, 28));
         stackedWidget->addWidget(home);
         calendar = new QWidget();
         calendar->setObjectName(QStringLiteral("calendar"));
-        cb_back = new QPushButton(calendar);
-        cb_back->setObjectName(QStringLiteral("cb_back"));
-        cb_back->setGeometry(QRect(660, 370, 81, 28));
-        label1 = new QLabel(calendar);
-        label1->setObjectName(QStringLiteral("label1"));
-        label1->setGeometry(QRect(340, 10, 63, 20));
         cb_add = new QPushButton(calendar);
         cb_add->setObjectName(QStringLiteral("cb_add"));
-        cb_add->setGeometry(QRect(660, 10, 84, 28));
+        cb_add->setGeometry(QRect(450, 10, 84, 28));
         ct_table = new QTableWidget(calendar);
         ct_table->setObjectName(QStringLiteral("ct_table"));
-        ct_table->setGeometry(QRect(10, 40, 531, 331));
+        ct_table->setGeometry(QRect(10, 50, 531, 411));
         ct_time = new QTextBrowser(calendar);
         ct_time->setObjectName(QStringLiteral("ct_time"));
         ct_time->setGeometry(QRect(110, 10, 191, 31));
@@ -603,28 +596,37 @@ public:
         label->setGeometry(QRect(10, 10, 91, 20));
         cb_set = new QPushButton(calendar);
         cb_set->setObjectName(QStringLiteral("cb_set"));
-        cb_set->setGeometry(QRect(550, 10, 84, 28));
+        cb_set->setGeometry(QRect(340, 10, 84, 28));
         label_29 = new QLabel(calendar);
         label_29->setObjectName(QStringLiteral("label_29"));
-        label_29->setGeometry(QRect(550, 60, 71, 20));
-        ct_projects = new QTableWidget(calendar);
-        ct_projects->setObjectName(QStringLiteral("ct_projects"));
-        ct_projects->setGeometry(QRect(545, 80, 201, 291));
-        cb_auto = new QPushButton(calendar);
-        cb_auto->setObjectName(QStringLiteral("cb_auto"));
-        cb_auto->setGeometry(QRect(330, 370, 91, 28));
+        label_29->setGeometry(QRect(550, 60, 91, 20));
+        ct_scheduled = new QTableWidget(calendar);
+        ct_scheduled->setObjectName(QStringLiteral("ct_scheduled"));
+        ct_scheduled->setGeometry(QRect(545, 80, 221, 291));
+        cb_schedule = new QPushButton(calendar);
+        cb_schedule->setObjectName(QStringLiteral("cb_schedule"));
+        cb_schedule->setGeometry(QRect(610, 400, 91, 28));
+        cb_back = new QPushButton(calendar);
+        cb_back->setObjectName(QStringLiteral("cb_back"));
+        cb_back->setGeometry(QRect(860, 430, 81, 28));
+        label_30 = new QLabel(calendar);
+        label_30->setObjectName(QStringLiteral("label_30"));
+        label_30->setGeometry(QRect(770, 60, 111, 20));
+        ct_unscheduled = new QTableWidget(calendar);
+        ct_unscheduled->setObjectName(QStringLiteral("ct_unscheduled"));
+        ct_unscheduled->setGeometry(QRect(770, 80, 171, 291));
         stackedWidget->addWidget(calendar);
         set = new QWidget();
         set->setObjectName(QStringLiteral("set"));
         sb_back = new QPushButton(set);
         sb_back->setObjectName(QStringLiteral("sb_back"));
-        sb_back->setGeometry(QRect(660, 370, 81, 28));
+        sb_back->setGeometry(QRect(860, 430, 81, 28));
         sc_label1 = new QLabel(set);
         sc_label1->setObjectName(QStringLiteral("sc_label1"));
-        sc_label1->setGeometry(QRect(330, 10, 101, 20));
+        sc_label1->setGeometry(QRect(420, 10, 101, 20));
         gridLayoutWidget = new QWidget(set);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(50, 90, 600, 187));
+        gridLayoutWidget->setGeometry(QRect(150, 90, 600, 187));
         gridLayout = new QGridLayout(gridLayoutWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -812,16 +814,16 @@ public:
 
         sb_apply = new QPushButton(set);
         sb_apply->setObjectName(QStringLiteral("sb_apply"));
-        sb_apply->setGeometry(QRect(340, 310, 84, 28));
+        sb_apply->setGeometry(QRect(430, 310, 84, 28));
         stackedWidget->addWidget(set);
         add = new QWidget();
         add->setObjectName(QStringLiteral("add"));
         label_7 = new QLabel(add);
         label_7->setObjectName(QStringLiteral("label_7"));
-        label_7->setGeometry(QRect(350, 10, 63, 20));
+        label_7->setGeometry(QRect(440, 10, 63, 20));
         formLayoutWidget = new QWidget(add);
         formLayoutWidget->setObjectName(QStringLiteral("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(300, 140, 160, 92));
+        formLayoutWidget->setGeometry(QRect(390, 130, 160, 92));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -859,22 +861,16 @@ public:
 
         ab_back = new QPushButton(add);
         ab_back->setObjectName(QStringLiteral("ab_back"));
-        ab_back->setGeometry(QRect(660, 370, 84, 28));
+        ab_back->setGeometry(QRect(860, 430, 84, 28));
         ab_add = new QPushButton(add);
         ab_add->setObjectName(QStringLiteral("ab_add"));
-        ab_add->setGeometry(QRect(340, 260, 84, 28));
+        ab_add->setGeometry(QRect(430, 260, 84, 28));
         stackedWidget->addWidget(add);
-        a_monTo_2 = new QTextBrowser(centralWidget);
-        a_monTo_2->setObjectName(QStringLiteral("a_monTo_2"));
-        a_monTo_2->setGeometry(QRect(650, 483, 439, 66));
-        label_6 = new QLabel(centralWidget);
-        label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(650, 457, 439, 20));
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(1);
+        stackedWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -890,13 +886,13 @@ public:
 "</style></head><body style=\" font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:24pt;\">Smart Calendar</span></p></body></html>", Q_NULLPTR));
         hb_exit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
-        cb_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
-        label1->setText(QApplication::translate("MainWindow", "Calendar", Q_NULLPTR));
         cb_add->setText(QApplication::translate("MainWindow", "Add Task", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "Current Time:", Q_NULLPTR));
         cb_set->setText(QApplication::translate("MainWindow", "Set Hours", Q_NULLPTR));
-        label_29->setText(QApplication::translate("MainWindow", "PROJECTS", Q_NULLPTR));
-        cb_auto->setText(QApplication::translate("MainWindow", "Auto-Schedule", Q_NULLPTR));
+        label_29->setText(QApplication::translate("MainWindow", "SCHEDULED:", Q_NULLPTR));
+        cb_schedule->setText(QApplication::translate("MainWindow", "Schedule", Q_NULLPTR));
+        cb_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
+        label_30->setText(QApplication::translate("MainWindow", "UNSCHEDULED:", Q_NULLPTR));
         sb_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
         sc_label1->setText(QApplication::translate("MainWindow", "Set Hours Free", Q_NULLPTR));
         label_24->setText(QApplication::translate("MainWindow", "SAT", Q_NULLPTR));
@@ -928,7 +924,6 @@ public:
         label_28->setText(QApplication::translate("MainWindow", "Total Hours", Q_NULLPTR));
         ab_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
         ab_add->setText(QApplication::translate("MainWindow", "Add", Q_NULLPTR));
-        label_6->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
     } // retranslateUi
 
 };

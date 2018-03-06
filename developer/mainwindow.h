@@ -15,7 +15,7 @@
  *      1:
  *
  * KNOWN BUGS:
- *      1:
+ *      1: When current hour is same hour as free hours, what happens?
  *****************************************************************************/
 
 namespace Ui {
@@ -39,10 +39,12 @@ class MainWindow : public QMainWindow {
 
         //CALENDAR
         void UpdateCalendarTable();     //update calendar with current hour
-        void UpdateProjectsTable();     //update projects table
+        void UpdateUnscheduledTable();  //update unscheduled projects table
+        void UpdateScheduledTable();    //update scheduled projects table
+        void onUnscheduledClicked(const QModelIndex& value); //on unscheduled table row clicked
         void on_cb_set_clicked();       //button add clicked
         void on_cb_add_clicked();       //button add clicked
-        void on_cb_auto_clicked();      //button auto-schedule clicked
+        void on_cb_schedule_clicked();  //button auto-schedule clicked
         void on_cb_back_clicked();      //button back clicked
 
         //SET HOURS
@@ -66,7 +68,8 @@ class MainWindow : public QMainWindow {
         QSqlDatabase db;                //database
         QTimer *timer;                  //time to auto-update
 
-        QList <Project> projectList;    //project list (contains project objects)
+        QList <Project> unscheduledList;    //project list (contains unscheduled project objects)
+        QList <Project> scheduledList;    //project list (contains scheduled project objects)
 
         QString dayStr;                 //string of day: "Mon", "Tue", etc.
         int countHrs;                   //used in calculation for counting hours
@@ -76,6 +79,8 @@ class MainWindow : public QMainWindow {
         int prevTotalHours;             //total hours of previous update from start of week
         int daysPassed;                 //days passed between previous update and now
         int hoursPassed;                //hours passed between previous update and now
+
+        int row;                        //row selected on unscheduled table
 };
 
 #endif // MAINWINDOW_H

@@ -29,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Initializes free hours combo boxes
     UpdateComboBox();
 
+    row = -1;
+
     //Creates a timer to auto-update InitializeDb function
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(InitializeDb()));
@@ -48,9 +50,10 @@ MainWindow::~MainWindow() {
  * how many hours passed between the first 1 and the current 1. (hoursPassed)
  *****************************************************************************/
 void MainWindow::InitializeDb() {
-    QSqlQuery query(db);                                        //initial query
+    QSqlQuery query(db);                                           //initial query
     QString curDayStr = QDate::currentDate().toString().mid(0,3);  //current day name (Mon, Tue...Sun)
-    QTime curHour = QTime::currentTime();                       //current hour (12,13...23)
+    QTime curHour = QTime::currentTime();                          //current hour (12,13...23)
+    curTotalHours = 0;
     prevTotalHours = 0;
     hoursPassed = -1;
 
@@ -70,10 +73,17 @@ void MainWindow::InitializeDb() {
     else
         curDay = 7;
 
-    //Searches for the ealier "1", then updates the hour to how many hours passed, the dayStr to ealier day,
+    //Searches for the ealier "Current", then updates the hour to how many hours passed, the dayStr to ealier day,
     SearchDb();
 
     curTotalHours += curHour.hour();
+
+    //First time running program
+    if (prevTotalHours == 168) {
+        prevTotalHours = curTotalHours;
+        prevDay = curDay;
+    }
+
     daysPassed = curDay-prevDay;
     countHrs = curTotalHours-prevTotalHours;
 
@@ -84,8 +94,8 @@ void MainWindow::InitializeDb() {
              << "Days Passed: " << daysPassed << "\n"
              << "Hours Passed: " << countHrs << "\n";
 
-    //Removes 1 from ealier hour
-    query.exec("UPDATE database SET '" + dayStr + "'=0 WHERE hour=" + QString::number(prevTotalHours-hoursPassed));
+    //Removes "Current" from ealier hour
+    query.exec("UPDATE calendar SET '" + dayStr + "'='' WHERE hour=" + QString::number(prevTotalHours-hoursPassed+1));
 
     //Finds amount of hours passed between ealier hour and current hour (hoursPassed)
     hoursPassed = countHrs + 24*daysPassed;
@@ -97,7 +107,7 @@ void MainWindow::InitializeDb() {
     qDebug() << "Hours Passed Since Last Update: " << hoursPassed;
 
     //Updates a cell from the database. Selects the current day, then to current hour, then sets cell to 1
-    query.exec("UPDATE database SET '" + curDayStr + "'=1 WHERE hour=" + QString::number(curHour.hour()));
+    query.exec("UPDATE calendar SET '" + curDayStr + "'='Current' WHERE hour=" + QString::number(curHour.hour()+1));
 
     //Updates time in upper left corner of calendar page
     ui->ct_time->setText(QDateTime::currentDateTime().toString());
@@ -108,21 +118,22 @@ void MainWindow::InitializeDb() {
 /*****************************************************************************
  * SearchDb
  *____________________________________________________________________________
- * This method will search the database for a "1" integer.
+ * This method will search the database for a "Current" string
  *      hour = how many hours passed
  *      dayStr = ealier day
  *****************************************************************************/
 void MainWindow::SearchDb() {
     QSqlQuery query(db);        //initial query
 
-    //Checks for where "1" is in the database.
-    query.prepare("SELECT * FROM database ORDER BY hour");
+    //Checks for where "Current" is in the database.
+    query.prepare("SELECT * FROM calendar ORDER BY hour");
 
-    //First checks for previous 1 (from ealier update). Once it has place of 1, then counts each hour until current hour.
+    //First checks for previous "Current" (from ealier update). Once it has place of "Current",
+    //then counts each hour until current hour.
     for (prevDay = 1; prevDay <= 7; prevDay++) {
         if(query.exec()) {
             while(query.next()) {\
-                if (query.value(prevDay).toInt() == 1) {
+                if (query.value(prevDay).toString() == "Current") {
                     switch(prevDay) {
                         case 1 : dayStr = "Mon"; curTotalHours = 0; hoursPassed = 0;
                             break;
@@ -171,7 +182,8 @@ void MainWindow::on_hb_exit_clicked() {
  *****************************************************************************/
 void MainWindow::UpdateCalendarTable() {
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM database ORDER BY hour");
+
+    query.prepare("SELECT * FROM calendar ORDER BY hour");
 
     ui->ct_table->setRowCount(24);
     ui->ct_table->setColumnCount(8);
@@ -197,7 +209,7 @@ void MainWindow::UpdateCalendarTable() {
                 ui->ct_table->setItem(i+1, 0, new QTableWidgetItem(QString::number(i-11) + " PM"));
 
             for (int j = 1; j <= 7; j++)
-                ui->ct_table->setItem(i, j, new QTableWidgetItem(QString::number(query.value(j).toInt())));
+                ui->ct_table->setItem(i, j, new QTableWidgetItem(query.value(j).toString()));
 
             ui->ct_table->setVerticalHeaderItem(i, new QTableWidgetItem(""));
         }
@@ -205,34 +217,66 @@ void MainWindow::UpdateCalendarTable() {
 
     ui->ct_table->resizeColumnsToContents();
 
-    UpdateProjectsTable();
+    UpdateUnscheduledTable();
+    UpdateScheduledTable();
 }
 
 
 /*****************************************************************************
- * UpdateProjectsTable
+ * UpdateUnscheduledTable
  *____________________________________________________________________________
- * This method will update the projects table with the name, hours, and
- * description of all the added projects.
+ * This method will update the unscheduled projects table with the name,
+ * hours, and description of all the added projects.
  *****************************************************************************/
-void MainWindow::UpdateProjectsTable() {
-    ui->ct_projects->setRowCount(projectList.count());
-    ui->ct_projects->setColumnCount(4);
+void MainWindow::UpdateUnscheduledTable() {
+    ui->ct_unscheduled->setRowCount(unscheduledList.count());
+    ui->ct_unscheduled->setColumnCount(3);
 
-    ui->ct_projects->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
-    ui->ct_projects->setHorizontalHeaderItem(1, new QTableWidgetItem("Hours"));
-    ui->ct_projects->setHorizontalHeaderItem(2, new QTableWidgetItem("Left"));
-    ui->ct_projects->setHorizontalHeaderItem(3, new QTableWidgetItem("Desc."));
+    ui->ct_unscheduled->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
+    ui->ct_unscheduled->setHorizontalHeaderItem(1, new QTableWidgetItem("Hours"));
+    ui->ct_unscheduled->setHorizontalHeaderItem(2, new QTableWidgetItem("Desc."));
 
-    for (int i = 0; i < projectList.count(); i++) {
-        qDebug() << projectList.at(i).GetName();
-        ui->ct_projects->setItem(i, 0, new QTableWidgetItem(projectList.at(i).GetName()));
-        ui->ct_projects->setItem(i, 1, new QTableWidgetItem(QString::number(projectList.at(i).GetTotalHours())));
-        ui->ct_projects->setItem(i, 2, new QTableWidgetItem(QString::number(projectList.at(i).GetRemHours())));
-        ui->ct_projects->setItem(i, 3, new QTableWidgetItem(projectList.at(i).GetDesc()));
+    for (int i = 0; i < unscheduledList.count(); i++) {
+        ui->ct_unscheduled->setItem(i, 0, new QTableWidgetItem(unscheduledList.at(i).GetName()));
+        ui->ct_unscheduled->setItem(i, 1, new QTableWidgetItem(QString::number(unscheduledList.at(i).GetTotalHours())));
+        ui->ct_unscheduled->setItem(i, 2, new QTableWidgetItem(unscheduledList.at(i).GetDesc()));
     }
 
-    ui->ct_projects->resizeColumnsToContents();
+    ui->ct_unscheduled->resizeColumnsToContents();
+
+    connect(ui->ct_unscheduled, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onUnscheduledClicked(const QModelIndex &)));
+}
+
+
+/*****************************************************************************
+ * UpdateScheduledTable
+ *____________________________________________________________________________
+ * This method will update the scheduled projects table with the name, hours,
+ * and description of all the added projects.
+ *****************************************************************************/
+void MainWindow::UpdateScheduledTable() {
+    ui->ct_scheduled->setRowCount(scheduledList.count());
+    ui->ct_scheduled->setColumnCount(4);
+
+    ui->ct_scheduled->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
+    ui->ct_scheduled->setHorizontalHeaderItem(1, new QTableWidgetItem("Hours"));
+    ui->ct_scheduled->setHorizontalHeaderItem(2, new QTableWidgetItem("Left"));
+    ui->ct_scheduled->setHorizontalHeaderItem(3, new QTableWidgetItem("Desc."));
+
+    for (int i = 0; i < scheduledList.count(); i++) {
+        qDebug() << scheduledList.at(i).GetName();
+        ui->ct_scheduled->setItem(i, 0, new QTableWidgetItem(scheduledList.at(i).GetName()));
+        ui->ct_scheduled->setItem(i, 1, new QTableWidgetItem(QString::number(scheduledList.at(i).GetTotalHours())));
+        ui->ct_scheduled->setItem(i, 2, new QTableWidgetItem(QString::number(scheduledList.at(i).GetRemHours())));
+        ui->ct_scheduled->setItem(i, 3, new QTableWidgetItem(scheduledList.at(i).GetDesc()));
+    }
+
+    ui->ct_scheduled->resizeColumnsToContents();
+}
+
+
+void MainWindow::onUnscheduledClicked(const QModelIndex& value) {
+    row = value.row();
 }
 
 
@@ -247,12 +291,36 @@ void MainWindow::on_cb_add_clicked() {
 
 
 /*****************************************************************************
- * on_cb_auto_clicked
+ * on_cb_schedule_clicked
  *____________________________________________________________________________
- * This method will automatically schedule projects onto the calendar.
+ * This method will activate when the user clicks an unscheduled project on
+ * the unscheduled project list and clicks the "Schedule" button. This will
+ * transfer the selected project into the scheduled project list. From there,
+ * it will automatically schedule the project onto the calendar by looking at
+ * the time remaining on the project.
  *****************************************************************************/
-void MainWindow::on_cb_auto_clicked() {
+void MainWindow::on_cb_schedule_clicked() { 
+    QMessageBox msgBox;
 
+    if (row >= 0) {
+        QSqlQuery query(db);
+        query.exec("DELETE FROM unscheduled WHERE priority=" + QString::number(row+1));
+        query.exec("INSERT INTO scheduled (NAME, HOURS, LEFT, DESC) "
+                   "VALUES ('" + unscheduledList.at(row).GetName() +
+                   "', '" + QString::number(unscheduledList.at(row).GetTotalHours()) +
+                   "', '" + QString::number(unscheduledList.at(row).GetRemHours()) +
+                   "', '" + unscheduledList.at(row).GetDesc() + "')");
+
+        scheduledList.append(unscheduledList.at(row));
+        unscheduledList.removeAt(row);
+        row--;
+
+        UpdateCalendarTable();
+    }
+    else {
+        msgBox.setText("ERROR - Must select an unscheduled project!");
+        msgBox.exec();
+    }
 }
 
 
@@ -319,10 +387,26 @@ bool MainWindow::CheckFreeHours(QComboBox* from, QComboBox* to, QString comboDay
     return 0;
 }
 
+
+/*****************************************************************************
+ * UpdateFreeDatabase
+ *____________________________________________________________________________
+ * This method will update calendar database by putting "Open" for all hours
+ * free. First, start with column Monday (0), then start at row at index of
+ * from hour free. Go down column until you hit to hour free, then go to next
+ * column.
+ *****************************************************************************/
 void MainWindow::UpdateFreeDatabase(QComboBox* from, QComboBox* to, QString day) {
     QSqlQuery query(db);
     query.exec("UPDATE freeTime SET '" + day + "'='" + from->itemText(from->currentIndex()) + "' WHERE FROM_TO=1");
     query.exec("UPDATE freeTime SET '" + day + "'='" + to->itemText(to->currentIndex()) + "' WHERE FROM_TO=2");
+
+    //Updates calendar database with "Open"
+    if (from->currentIndex() != to->currentIndex()) {
+        for (int count = from->currentIndex(); count <= to->currentIndex(); count++) {
+            query.exec("UPDATE calendar SET '" + day + "'='OPEN' WHERE hour=" + QString::number(count));
+        }
+    }
 }
 
 
@@ -350,6 +434,9 @@ void MainWindow::on_sb_apply_clicked() {
         UpdateFreeDatabase(ui->sc_friFrom, ui->sc_friTo, "FRI");
         UpdateFreeDatabase(ui->sc_satFrom, ui->sc_satTo, "SAT");
         UpdateFreeDatabase(ui->sc_sunFrom, ui->sc_sunTo, "SUN");
+
+        //Initialize database
+        InitializeDb();
 
         UpdateCalendarTable();
         ui->stackedWidget->setCurrentIndex(1);
@@ -399,16 +486,10 @@ void MainWindow::on_ab_add_clicked() {
     }
     else {
         Project project(setName, setDesc, setHours.toInt());
-        projectList.append(project);
-
-        for (int i = 0; i < projectList.count(); i++) {
-            qDebug() << projectList.at(i).GetName();
-            qDebug() << projectList.at(i).GetTotalHours();
-            qDebug() << projectList.at(i).GetDesc();
-        }
+        unscheduledList.append(project);
 
         QSqlQuery query(db);
-        query.exec("INSERT INTO projects (NAME, HOURS, DESC) "
+        query.exec("INSERT INTO unscheduled (NAME, HOURS, DESC) "
                    "VALUES ('" + setName + "', '" + setHours + "', '" + setDesc + "')");
 
         UpdateCalendarTable();

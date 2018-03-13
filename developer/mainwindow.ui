@@ -468,7 +468,7 @@ QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="home">
      <widget class="QPushButton" name="hb_view">
@@ -601,8 +601,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="cb_schedule">
       <property name="geometry">
        <rect>
-        <x>610</x>
-        <y>400</y>
+        <x>720</x>
+        <y>10</y>
         <width>91</width>
         <height>28</height>
        </rect>
@@ -645,6 +645,32 @@ p, li { white-space: pre-wrap; }
         <width>171</width>
         <height>291</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="cb_deleteUn">
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>380</y>
+        <width>84</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="cb_deleteSc">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>380</y>
+        <width>84</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
       </property>
      </widget>
     </widget>

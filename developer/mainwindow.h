@@ -15,7 +15,9 @@
  *      1:
  *
  * KNOWN BUGS:
- *      1: When current hour is same hour as free hours, what happens?
+ *      1: When current hour is same hour as free hours, there exists a blank
+ *         space directly after the current hour (where there should be a
+ *         "Free" space).
  *****************************************************************************/
 
 namespace Ui {
@@ -41,10 +43,20 @@ class MainWindow : public QMainWindow {
         void UpdateCalendarTable();     //update calendar with current hour
         void UpdateUnscheduledTable();  //update unscheduled projects table
         void UpdateScheduledTable();    //update scheduled projects table
-        void onUnscheduledClicked(const QModelIndex& value); //on unscheduled table row clicked
+
+        void UpdateUnscheduledDb();     //updates unscheduled table from the database
+        void UpdateScheduledDb();       //updates scheduled table from the database
+
+        void on_ct_unscheduled_cellClicked(int row1, int col1);   //on unscheduled table cell click, record row and column
+        void on_ct_scheduled_cellClicked(int row1, int col1);     //on scheduled table cell click, record row and column
+        void onDataChangedUnscheduled(const QModelIndex& value);  //on unscheduled cell data change, update db
+        void onDataChangedScheduled(const QModelIndex& value);    //on scheduled cell data change, update db
+
         void on_cb_set_clicked();       //button add clicked
         void on_cb_add_clicked();       //button add clicked
         void on_cb_schedule_clicked();  //button auto-schedule clicked
+        void on_cb_deleteUn_clicked();  //button delete unscheduled task clicked
+        void on_cb_deleteSc_clicked();  //button delete scheduled task clicked
         void on_cb_back_clicked();      //button back clicked
 
         //SET HOURS
@@ -59,7 +71,8 @@ class MainWindow : public QMainWindow {
         void on_sb_back_clicked();      //button back clicked
 
         //ADD TASK
-        bool isNumber(const QString& str);
+        bool IsNumber(const QString& str);  //if string is a number over 0
+        bool IsUnique(const QString& str, const QList<Project>& list);  //if string is unique
         void on_ab_add_clicked();       //button add clicked
         void on_ab_back_clicked();      //button back clicked
 
@@ -68,8 +81,8 @@ class MainWindow : public QMainWindow {
         QSqlDatabase db;                //database
         QTimer *timer;                  //time to auto-update
 
-        QList <Project> unscheduledList;    //project list (contains unscheduled project objects)
-        QList <Project> scheduledList;    //project list (contains scheduled project objects)
+        QList<Project> unscheduledList;    //project list (contains unscheduled project objects)
+        QList<Project> scheduledList;    //project list (contains scheduled project objects)
 
         QString dayStr;                 //string of day: "Mon", "Tue", etc.
         int countHrs;                   //used in calculation for counting hours
@@ -80,7 +93,8 @@ class MainWindow : public QMainWindow {
         int daysPassed;                 //days passed between previous update and now
         int hoursPassed;                //hours passed between previous update and now
 
-        int row;                        //row selected on unscheduled table
+        int row;                        //row selected on table
+        int col;                        //column selected on table
 };
 
 #endif // MAINWINDOW_H

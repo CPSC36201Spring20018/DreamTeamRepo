@@ -18,11 +18,24 @@ Project::Project() {
  *____________________________________________________________________________
  * This method will initialize the class with user-defined values.
  *****************************************************************************/
-Project::Project(QString name, QString desc, int totalHours) {
+Project::Project(QString name, int totalHours, int remHours, QString desc) {
     this->name = name;
+    this->totalHours = totalHours;
+    this->remHours = remHours;
     this->desc = desc;
+}
+
+
+/*****************************************************************************
+ * Project
+ *____________________________________________________________________________
+ * This method will initialize the class with user-defined values.
+ *****************************************************************************/
+Project::Project(QString name, int totalHours, QString desc) {
+    this->name = name;
     this->totalHours = totalHours;
     this->remHours = totalHours;
+    this->desc = desc;
 }
 
 
@@ -63,4 +76,44 @@ int Project::GetTotalHours() const {
  *****************************************************************************/
 int Project::GetRemHours() const {
     return remHours;
+}
+
+
+/*****************************************************************************
+ * SetName
+ *____________________________________________________________________________
+ * This method will set the name.
+ *****************************************************************************/
+void Project::SetName(QString name) {
+    this->name = name;
+}
+
+
+/*****************************************************************************
+ * SetDesc
+ *____________________________________________________________________________
+ * This method will set the description.
+ *****************************************************************************/
+void Project::SetDesc(QString desc) {
+    this->desc = desc;
+}
+
+
+/*****************************************************************************
+ * SetTotalHours
+ *____________________________________________________________________________
+ * This method will set the total hours.
+ *****************************************************************************/
+void Project::SetTotalHours(int totalHours) {
+    this->totalHours = totalHours;
+}
+
+
+/*****************************************************************************
+ * SetRemHours
+ *____________________________________________________________________________
+ * This method will set the remaining hours.
+ *****************************************************************************/
+void Project::SetRemHours(int remHours) {
+    this->remHours = remHours;
 }

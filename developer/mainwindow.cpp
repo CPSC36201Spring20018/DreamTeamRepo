@@ -29,7 +29,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //Initializes free hours combo boxes
     UpdateComboBox();
 
+    //Updates (un)scheduled projects from database
+    UpdateUnscheduledDb();
+    UpdateScheduledDb();
+
     row = -1;
+    col = -1;
 
     //Creates a timer to auto-update InitializeDb function
     timer = new QTimer(this);
@@ -244,7 +249,8 @@ void MainWindow::UpdateUnscheduledTable() {
 
     ui->ct_unscheduled->resizeColumnsToContents();
 
-    connect(ui->ct_unscheduled, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onUnscheduledClicked(const QModelIndex &)));
+    //Whenever data is changed on this table, run function onDataChangedUnscheduled
+    connect(ui->ct_unscheduled->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onDataChangedUnscheduled(const QModelIndex&)));
 }
 
 
@@ -264,7 +270,6 @@ void MainWindow::UpdateScheduledTable() {
     ui->ct_scheduled->setHorizontalHeaderItem(3, new QTableWidgetItem("Desc."));
 
     for (int i = 0; i < scheduledList.count(); i++) {
-        qDebug() << scheduledList.at(i).GetName();
         ui->ct_scheduled->setItem(i, 0, new QTableWidgetItem(scheduledList.at(i).GetName()));
         ui->ct_scheduled->setItem(i, 1, new QTableWidgetItem(QString::number(scheduledList.at(i).GetTotalHours())));
         ui->ct_scheduled->setItem(i, 2, new QTableWidgetItem(QString::number(scheduledList.at(i).GetRemHours())));
@@ -272,11 +277,178 @@ void MainWindow::UpdateScheduledTable() {
     }
 
     ui->ct_scheduled->resizeColumnsToContents();
+
+    //Whenever data is changed on this table, run function onDataChangedScheduled
+    connect(ui->ct_scheduled->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onDataChangedScheduled(const QModelIndex&)));
 }
 
 
-void MainWindow::onUnscheduledClicked(const QModelIndex& value) {
-    row = value.row();
+/*****************************************************************************
+ * UpdateUnscheduledDb
+ *____________________________________________________________________________
+ * This method will update the unscheduled projects table using values from
+ * the database.
+ *****************************************************************************/
+void MainWindow::UpdateUnscheduledDb() {
+    QSqlQuery query(db);
+    query.prepare("SELECT * FROM unscheduled");
+
+    if(query.exec()) {
+        while(query.next()) {
+            Project project(query.value(1).toString(), query.value(2).toInt(), query.value(3).toString());
+            unscheduledList.append(project);
+        }
+    }
+}
+
+
+/*****************************************************************************
+ * UpdateScheduledDb
+ *____________________________________________________________________________
+ * This method will update the scheduled projects table using values from
+ * the database.
+ *****************************************************************************/
+void MainWindow::UpdateScheduledDb() {
+    QSqlQuery query(db);
+    query.prepare("SELECT * FROM scheduled");
+
+    if(query.exec()) {
+        while(query.next()) {
+            Project project(query.value(1).toString(), query.value(2).toInt(), query.value(3).toInt(), query.value(4).toString());
+            scheduledList.append(project);
+        }
+    }
+}
+
+
+/*****************************************************************************
+ * on_ct_unscheduled_cellClicked
+ *____________________________________________________________________________
+ * This method will record the exact cell (row and column) that was clicked
+ * on the unscheduled table.
+ *****************************************************************************/
+void MainWindow::on_ct_unscheduled_cellClicked(int row1, int col1) {
+    row = row1;
+    col = col1;
+}
+
+
+/*****************************************************************************
+ * on_ct_scheduled_cellClicked
+ *____________________________________________________________________________
+ * This method will record the exact cell (row and column) that was clicked
+ * on the scheduled table.
+ *****************************************************************************/
+void MainWindow::on_ct_scheduled_cellClicked(int row1, int col1) {
+    row = row1;
+    col = col1;
+}
+
+
+/*****************************************************************************
+ * onDataChangedUnscheduled
+ *____________________________________________________________________________
+ * This method, upon detecting data that was changed, will update the database
+ * with the new value in the unscheduled table.
+ *****************************************************************************/
+void MainWindow::onDataChangedUnscheduled(const QModelIndex& value) {
+    QString dataStr = value.data(Qt::DisplayRole).toString();
+    int dataInt = value.data(Qt::DisplayRole).toInt();
+
+    if (row != -1) {
+        QSqlQuery query(db);
+
+        switch(col) {
+            case 0 : unscheduledList[row].SetName(dataStr);
+                     query.exec("UPDATE unscheduled SET name='" + dataStr + "' WHERE name='" + unscheduledList.at(row).GetName() + "'");
+                break;
+            case 1 : {QMessageBox msgBox;
+                     if (dataStr == "0") {
+                         msgBox.setText("ERROR - Hours must be at least 1!");
+                         msgBox.exec();
+                     }
+                     else if (!IsNumber(dataStr) || dataStr == "") {
+                         msgBox.setText("ERROR - Hours must be numerical and positive!");
+                         msgBox.exec();
+                     }
+                     else {
+                         unscheduledList[row].SetTotalHours(dataInt);
+                         query.exec("UPDATE unscheduled SET hours='" + QString::number(dataInt) + "' WHERE name='" + unscheduledList.at(row).GetName() + "'");
+                         unscheduledList[row].SetRemHours(dataInt);
+                     }}
+                break;
+            case 2 : unscheduledList[row].SetDesc(dataStr);
+                     query.exec("UPDATE unscheduled SET desc='" + dataStr + "' WHERE name='" + unscheduledList.at(row).GetName() + "'");
+                break;
+            default :
+                break;
+        };
+        row = -1;
+    }
+}
+
+
+/*****************************************************************************
+ * onDataChangedScheduled
+ *____________________________________________________________________________
+ * This method, upon detecting data that was changed, will update the database
+ * with the new value in the scheduled table.
+ *****************************************************************************/
+void MainWindow::onDataChangedScheduled(const QModelIndex& value) {
+    QString dataStr = value.data(Qt::DisplayRole).toString();
+    int dataInt = value.data(Qt::DisplayRole).toInt();
+
+    if (row != -1) {
+        QSqlQuery query(db);
+
+        switch(col) {
+            case 0 : scheduledList[row].SetName(dataStr);
+                     query.exec("UPDATE scheduled SET name='" + dataStr + "' WHERE name='" + scheduledList.at(row).GetName() + "'");
+                break;
+            case 1 : {QMessageBox msgBox;
+                     if (dataStr == "0") {
+                         msgBox.setText("ERROR - Total hours must be at least 1!");
+                         msgBox.exec();
+                     }
+                     else if (!IsNumber(dataStr) || dataStr == "") {
+                         msgBox.setText("ERROR - Total hours must be numerical and positive!");
+                         msgBox.exec();
+                     }
+                     else if (dataInt < scheduledList[row].GetRemHours()) {
+                         msgBox.setText("ERROR - Total hours must be greater than or equal to remaining hours!");
+                         msgBox.exec();
+                     }
+                     else {
+                         scheduledList[row].SetTotalHours(dataInt);
+                         query.exec("UPDATE scheduled SET hours='" + QString::number(dataInt) + "' WHERE name='" + scheduledList.at(row).GetName() + "'");
+                     }}
+                break;
+            case 2 : {QMessageBox msgBox;
+                 if (dataStr == "0") {
+                     msgBox.setText("ERROR - Remaining hours must be at least 1!");
+                     msgBox.exec();
+                 }
+                 else if (!IsNumber(dataStr) || dataStr == "") {
+                     msgBox.setText("ERROR - Remaining hours must be numerical and positive!");
+                     msgBox.exec();
+                 }
+                 else if (dataInt > scheduledList[row].GetTotalHours()) {
+                     msgBox.setText("ERROR - Remaining hours must be less than or equal to total hours!");
+                     msgBox.exec();
+                 }
+                 else {
+                     scheduledList[row].SetRemHours(dataInt);
+                     query.exec("UPDATE scheduled SET left='" + QString::number(dataInt) + "' WHERE name='" + scheduledList.at(row).GetName() + "'");
+                 }}
+                break;
+            case 3 : scheduledList[row].SetDesc(dataStr);
+                     query.exec("UPDATE scheduled SET desc='" + dataStr + "' WHERE name='" + scheduledList.at(row).GetName() + "'");
+                break;
+            default :
+                break;
+        };
+        row = -1;
+    }
 }
 
 
@@ -304,7 +476,7 @@ void MainWindow::on_cb_schedule_clicked() {
 
     if (row >= 0) {
         QSqlQuery query(db);
-        query.exec("DELETE FROM unscheduled WHERE priority=" + QString::number(row+1));
+        query.exec("DELETE FROM unscheduled WHERE name='" + unscheduledList.at(row).GetName() + "'");
         query.exec("INSERT INTO scheduled (NAME, HOURS, LEFT, DESC) "
                    "VALUES ('" + unscheduledList.at(row).GetName() +
                    "', '" + QString::number(unscheduledList.at(row).GetTotalHours()) +
@@ -319,6 +491,57 @@ void MainWindow::on_cb_schedule_clicked() {
     }
     else {
         msgBox.setText("ERROR - Must select an unscheduled project!");
+        msgBox.exec();
+    }
+}
+
+
+/*****************************************************************************
+ * on_cb_deleteUn_clicked
+ *____________________________________________________________________________
+ * This method will delete a project from the unscheduled project list from
+ * the database.
+ *****************************************************************************/
+void MainWindow::on_cb_deleteUn_clicked() {
+    QMessageBox msgBox;
+
+    if (row >= 0) {
+        QSqlQuery query(db);
+        query.exec("DELETE FROM unscheduled WHERE name='" + unscheduledList.at(row).GetName() + "'");
+
+        unscheduledList.removeAt(row);
+        row--;
+
+        UpdateCalendarTable();
+    }
+    else {
+        msgBox.setText("ERROR - Must select an unscheduled project!");
+        msgBox.exec();
+    }
+}
+
+
+/*****************************************************************************
+ * on_cb_deleteSc_clicked
+ *____________________________________________________________________________
+ * This method will delete a project from the scheduled project list from
+ * the database.
+ *****************************************************************************/
+void MainWindow::on_cb_deleteSc_clicked() {
+    QMessageBox msgBox;
+
+    if (row >= 0) {
+        QSqlQuery query(db);
+        qDebug() << row+1;
+        query.exec("DELETE FROM scheduled WHERE name='" + scheduledList.at(row).GetName() + "'");
+
+        scheduledList.removeAt(row);
+        row--;
+
+        UpdateCalendarTable();
+    }
+    else {
+        msgBox.setText("ERROR - Must select an scheduled project!");
         msgBox.exec();
     }
 }
@@ -452,13 +675,26 @@ void MainWindow::on_sb_back_clicked() {
 
 // A D D   H O U R S   P A G E
 /*****************************************************************************
- * isNumber
+ * IsNumber
  *____________________________________________________________________________
  * This method checks of string is a positive whole number.
  *****************************************************************************/
-bool MainWindow::isNumber(const QString& str) {
+bool MainWindow::IsNumber(const QString& str) {
     QRegExp re("\\d*");
     return re.exactMatch(str);
+}
+
+
+/*****************************************************************************
+ * IsUnique
+ *____________________________________________________________________________
+ * This method checks to see if a string is unique.
+ *****************************************************************************/
+bool MainWindow::IsUnique(const QString& str, const QList<Project>& list) {
+    for (int i = 0; i < list.length(); i++)
+        if (str == list.at(i).GetName())
+            return false;
+    return true;
 }
 
 
@@ -476,24 +712,33 @@ void MainWindow::on_ab_add_clicked() {
     QString setHours = ui->al_hours->text();
     QString setDesc = ui->al_desc->text();
 
-    if (setHours == "0") {
-        msgBox.setText("ERROR - Hours should be at least 1!");
-        msgBox.exec();
-    }
-    else if (!isNumber(setHours) || setHours == "") {
-        msgBox.setText("ERROR - Hours should be numerical and positive!");
-        msgBox.exec();
+    //Error checks name (must be unique)
+    if (IsUnique(setName,unscheduledList) && IsUnique(setName,unscheduledList)) {
+
+        //Error checks hours (must be numerical above 0)
+        if (setHours == "0") {
+            msgBox.setText("ERROR - Hours must be at least 1!");
+            msgBox.exec();
+        }
+        else if (!IsNumber(setHours) || setHours == "") {
+            msgBox.setText("ERROR - Hours must be numerical and positive!");
+            msgBox.exec();
+        }
+        else {
+            Project project(setName, setHours.toInt(), setDesc);
+            unscheduledList.append(project);
+
+            QSqlQuery query(db);
+            query.exec("INSERT INTO unscheduled (NAME, HOURS, DESC) "
+                       "VALUES ('" + setName + "', '" + setHours + "', '" + setDesc + "')");
+
+            UpdateCalendarTable();
+            ui->stackedWidget->setCurrentIndex(1);
+        }
     }
     else {
-        Project project(setName, setDesc, setHours.toInt());
-        unscheduledList.append(project);
-
-        QSqlQuery query(db);
-        query.exec("INSERT INTO unscheduled (NAME, HOURS, DESC) "
-                   "VALUES ('" + setName + "', '" + setHours + "', '" + setDesc + "')");
-
-        UpdateCalendarTable();
-        ui->stackedWidget->setCurrentIndex(1);
+        msgBox.setText("ERROR - Name must be unique!");
+        msgBox.exec();
     }
 }
 

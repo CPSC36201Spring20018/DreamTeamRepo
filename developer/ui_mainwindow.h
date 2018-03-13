@@ -50,6 +50,8 @@ public:
     QPushButton *cb_back;
     QLabel *label_30;
     QTableWidget *ct_unscheduled;
+    QPushButton *cb_deleteUn;
+    QPushButton *cb_deleteSc;
     QWidget *set;
     QPushButton *sb_back;
     QLabel *sc_label1;
@@ -605,7 +607,7 @@ public:
         ct_scheduled->setGeometry(QRect(545, 80, 221, 291));
         cb_schedule = new QPushButton(calendar);
         cb_schedule->setObjectName(QStringLiteral("cb_schedule"));
-        cb_schedule->setGeometry(QRect(610, 400, 91, 28));
+        cb_schedule->setGeometry(QRect(720, 10, 91, 28));
         cb_back = new QPushButton(calendar);
         cb_back->setObjectName(QStringLiteral("cb_back"));
         cb_back->setGeometry(QRect(860, 430, 81, 28));
@@ -615,6 +617,12 @@ public:
         ct_unscheduled = new QTableWidget(calendar);
         ct_unscheduled->setObjectName(QStringLiteral("ct_unscheduled"));
         ct_unscheduled->setGeometry(QRect(770, 80, 171, 291));
+        cb_deleteUn = new QPushButton(calendar);
+        cb_deleteUn->setObjectName(QStringLiteral("cb_deleteUn"));
+        cb_deleteUn->setGeometry(QRect(820, 380, 84, 28));
+        cb_deleteSc = new QPushButton(calendar);
+        cb_deleteSc->setObjectName(QStringLiteral("cb_deleteSc"));
+        cb_deleteSc->setGeometry(QRect(620, 380, 84, 28));
         stackedWidget->addWidget(calendar);
         set = new QWidget();
         set->setObjectName(QStringLiteral("set"));
@@ -870,7 +878,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -893,6 +901,8 @@ public:
         cb_schedule->setText(QApplication::translate("MainWindow", "Schedule", Q_NULLPTR));
         cb_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
         label_30->setText(QApplication::translate("MainWindow", "UNSCHEDULED:", Q_NULLPTR));
+        cb_deleteUn->setText(QApplication::translate("MainWindow", "Delete", Q_NULLPTR));
+        cb_deleteSc->setText(QApplication::translate("MainWindow", "Delete", Q_NULLPTR));
         sb_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
         sc_label1->setText(QApplication::translate("MainWindow", "Set Hours Free", Q_NULLPTR));
         label_24->setText(QApplication::translate("MainWindow", "SAT", Q_NULLPTR));

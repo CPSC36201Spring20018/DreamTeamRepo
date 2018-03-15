@@ -488,6 +488,9 @@ void MainWindow::on_cb_schedule_clicked() {
     QMessageBox msgBox;
 
     if (row >= 0) {
+        disconnect(ui->ct_unscheduled->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onDataChangedUnscheduled(const QModelIndex&)));
+        disconnect(ui->ct_scheduled->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onDataChangedScheduled(const QModelIndex&)));
+
         QSqlQuery query(db);
         query.exec("DELETE FROM unscheduled WHERE name='" + unscheduledList.at(row).GetName() + "'");
         query.exec("INSERT INTO scheduled (NAME, HOURS, LEFT, DESC) "
@@ -704,15 +707,17 @@ bool MainWindow::IsNumber(const QString& str) {
  * This method checks to see if a string is unique.
  *****************************************************************************/
 bool MainWindow::IsUnique(const QString& str, const QList<Project>& list1, const QList<Project>& list2) {
+    bool unique = true;
+
     for (int i = 0; i < list1.length(); i++)
         if (str == list1.at(i).GetName())
-            return false;
+            unique = false;
 
     for (int i = 0; i < list2.length(); i++)
         if (str == list2.at(i).GetName())
-            return false;
+            unique = false;
 
-    return true;
+    return unique;
 }
 
 

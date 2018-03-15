@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[41];
-    char stringdata0[619];
+    QByteArrayData data[42];
+    char stringdata0[626];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -70,9 +70,10 @@ QT_MOC_LITERAL(34, 540, 8), // "IsNumber"
 QT_MOC_LITERAL(35, 549, 3), // "str"
 QT_MOC_LITERAL(36, 553, 8), // "IsUnique"
 QT_MOC_LITERAL(37, 562, 14), // "QList<Project>"
-QT_MOC_LITERAL(38, 577, 4), // "list"
-QT_MOC_LITERAL(39, 582, 17), // "on_ab_add_clicked"
-QT_MOC_LITERAL(40, 600, 18) // "on_ab_back_clicked"
+QT_MOC_LITERAL(38, 577, 5), // "list1"
+QT_MOC_LITERAL(39, 583, 5), // "list2"
+QT_MOC_LITERAL(40, 589, 17), // "on_ab_add_clicked"
+QT_MOC_LITERAL(41, 607, 18) // "on_ab_back_clicked"
 
     },
     "MainWindow\0InitializeDb\0\0SearchDb\0"
@@ -90,7 +91,8 @@ QT_MOC_LITERAL(40, 600, 18) // "on_ab_back_clicked"
     "comboDay\0UpdateFreeDatabase\0day\0"
     "on_sb_apply_clicked\0on_sb_back_clicked\0"
     "IsNumber\0str\0IsUnique\0QList<Project>\0"
-    "list\0on_ab_add_clicked\0on_ab_back_clicked"
+    "list1\0list2\0on_ab_add_clicked\0"
+    "on_ab_back_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -133,9 +135,9 @@ static const uint qt_meta_data_MainWindow[] = {
       32,    0,  200,    2, 0x08 /* Private */,
       33,    0,  201,    2, 0x08 /* Private */,
       34,    1,  202,    2, 0x08 /* Private */,
-      36,    2,  205,    2, 0x08 /* Private */,
-      39,    0,  210,    2, 0x08 /* Private */,
-      40,    0,  211,    2, 0x08 /* Private */,
+      36,    3,  205,    2, 0x08 /* Private */,
+      40,    0,  212,    2, 0x08 /* Private */,
+      41,    0,  213,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -163,7 +165,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Bool, QMetaType::QString,   35,
-    QMetaType::Bool, QMetaType::QString, 0x80000000 | 37,   35,   38,
+    QMetaType::Bool, QMetaType::QString, 0x80000000 | 37, 0x80000000 | 37,   35,   38,   39,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -203,7 +205,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 23: _t->on_sb_back_clicked(); break;
         case 24: { bool _r = _t->IsNumber((*reinterpret_cast< const QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 25: { bool _r = _t->IsUnique((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QList<Project>(*)>(_a[2])));
+        case 25: { bool _r = _t->IsUnique((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QList<Project>(*)>(_a[2])),(*reinterpret_cast< const QList<Project>(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         case 26: _t->on_ab_add_clicked(); break;
         case 27: _t->on_ab_back_clicked(); break;

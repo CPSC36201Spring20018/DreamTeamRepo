@@ -295,7 +295,7 @@ void MainWindow::UpdateUnscheduledDb() {
 
     if(query.exec()) {
         while(query.next()) {
-            Project project(query.value(1).toString(), query.value(2).toInt(), query.value(3).toString());
+            Project project(query.value(0).toString(), query.value(1).toInt(), query.value(2).toString());
             unscheduledList.append(project);
         }
     }
@@ -314,7 +314,7 @@ void MainWindow::UpdateScheduledDb() {
 
     if(query.exec()) {
         while(query.next()) {
-            Project project(query.value(1).toString(), query.value(2).toInt(), query.value(3).toInt(), query.value(4).toString());
+            Project project(query.value(0).toString(), query.value(1).toInt(), query.value(2).toInt(), query.value(3).toString());
             scheduledList.append(project);
         }
     }
@@ -352,6 +352,7 @@ void MainWindow::on_ct_scheduled_cellClicked(int row1, int col1) {
  * with the new value in the unscheduled table.
  *****************************************************************************/
 void MainWindow::onDataChangedUnscheduled(const QModelIndex& value) {
+    QMessageBox msgBox;
     QString dataStr = value.data(Qt::DisplayRole).toString();
     int dataInt = value.data(Qt::DisplayRole).toInt();
 
@@ -359,10 +360,16 @@ void MainWindow::onDataChangedUnscheduled(const QModelIndex& value) {
         QSqlQuery query(db);
 
         switch(col) {
-            case 0 : unscheduledList[row].SetName(dataStr);
-                     query.exec("UPDATE unscheduled SET name='" + dataStr + "' WHERE name='" + unscheduledList.at(row).GetName() + "'");
+            case 0 : if (IsUnique(dataStr,unscheduledList, scheduledList)) {
+                        query.exec("UPDATE unscheduled SET name='" + dataStr + "' WHERE name='" + unscheduledList.at(row).GetName() + "'");
+                        unscheduledList[row].SetName(dataStr);
+                     }
+                     else {
+                        msgBox.setText("ERROR - Name must be unique!");
+                        msgBox.exec();
+                     }
                 break;
-            case 1 : {QMessageBox msgBox;
+            case 1 : {
                      if (dataStr == "0") {
                          msgBox.setText("ERROR - Hours must be at least 1!");
                          msgBox.exec();
@@ -395,6 +402,7 @@ void MainWindow::onDataChangedUnscheduled(const QModelIndex& value) {
  * with the new value in the scheduled table.
  *****************************************************************************/
 void MainWindow::onDataChangedScheduled(const QModelIndex& value) {
+    QMessageBox msgBox;
     QString dataStr = value.data(Qt::DisplayRole).toString();
     int dataInt = value.data(Qt::DisplayRole).toInt();
 
@@ -402,11 +410,16 @@ void MainWindow::onDataChangedScheduled(const QModelIndex& value) {
         QSqlQuery query(db);
 
         switch(col) {
-            case 0 : scheduledList[row].SetName(dataStr);
-                     query.exec("UPDATE scheduled SET name='" + dataStr + "' WHERE name='" + scheduledList.at(row).GetName() + "'");
+            case 0 : if (IsUnique(dataStr, unscheduledList, scheduledList)) {
+                            query.exec("UPDATE scheduled SET name='" + dataStr + "' WHERE name='" + scheduledList.at(row).GetName() + "'");
+                            scheduledList[row].SetName(dataStr);
+                        }
+                        else {
+                           msgBox.setText("ERROR - Name must be unique!");
+                           msgBox.exec();
+                        }
                 break;
-            case 1 : {QMessageBox msgBox;
-                     if (dataStr == "0") {
+            case 1 : {if (dataStr == "0") {
                          msgBox.setText("ERROR - Total hours must be at least 1!");
                          msgBox.exec();
                      }
@@ -423,7 +436,7 @@ void MainWindow::onDataChangedScheduled(const QModelIndex& value) {
                          query.exec("UPDATE scheduled SET hours='" + QString::number(dataInt) + "' WHERE name='" + scheduledList.at(row).GetName() + "'");
                      }}
                 break;
-            case 2 : {QMessageBox msgBox;
+            case 2 : {
                  if (dataStr == "0") {
                      msgBox.setText("ERROR - Remaining hours must be at least 1!");
                      msgBox.exec();
@@ -690,10 +703,15 @@ bool MainWindow::IsNumber(const QString& str) {
  *____________________________________________________________________________
  * This method checks to see if a string is unique.
  *****************************************************************************/
-bool MainWindow::IsUnique(const QString& str, const QList<Project>& list) {
-    for (int i = 0; i < list.length(); i++)
-        if (str == list.at(i).GetName())
+bool MainWindow::IsUnique(const QString& str, const QList<Project>& list1, const QList<Project>& list2) {
+    for (int i = 0; i < list1.length(); i++)
+        if (str == list1.at(i).GetName())
             return false;
+
+    for (int i = 0; i < list2.length(); i++)
+        if (str == list2.at(i).GetName())
+            return false;
+
     return true;
 }
 
@@ -713,7 +731,7 @@ void MainWindow::on_ab_add_clicked() {
     QString setDesc = ui->al_desc->text();
 
     //Error checks name (must be unique)
-    if (IsUnique(setName,unscheduledList) && IsUnique(setName,unscheduledList)) {
+    if (IsUnique(setName, unscheduledList, scheduledList)) {
 
         //Error checks hours (must be numerical above 0)
         if (setHours == "0") {

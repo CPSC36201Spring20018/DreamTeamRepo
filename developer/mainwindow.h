@@ -72,7 +72,9 @@ class MainWindow : public QMainWindow {
 
         //ADD TASK
         bool IsNumber(const QString& str);  //if string is a number over 0
-        bool IsUnique(const QString& str, const QList<Project>& list);  //if string is unique
+        bool IsUnique(const QString& str,
+                      const QList<Project>& list1,
+                      const QList<Project>& list2);  //if string is unique
         void on_ab_add_clicked();       //button add clicked
         void on_ab_back_clicked();      //button back clicked
 

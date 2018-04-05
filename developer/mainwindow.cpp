@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     row = -1;
     col = -1;
+    notScheduled = false;
 
     //Creates a timer to auto-update InitializeDb function
     timer = new QTimer(this);
@@ -56,8 +57,8 @@ MainWindow::~MainWindow() {
  *****************************************************************************/
 void MainWindow::InitializeDb() {
     QSqlQuery query(db);                                           //initial query
-    QString curDayStr = QDate::currentDate().toString().mid(0,3);  //current day name (Mon, Tue...Sun)
-    QTime curHour = QTime::currentTime();                          //current hour (12,13...23)
+    curDayStr = QDate::currentDate().toString().mid(0,3);          //current day name (Mon, Tue...Sun)
+    curHour = QTime::currentTime();                                //current hour (12,13...23)
     curTotalHours = 0;
     prevTotalHours = 0;
     hoursPassed = -1;
@@ -330,6 +331,7 @@ void MainWindow::UpdateScheduledDb() {
 void MainWindow::on_ct_unscheduled_cellClicked(int row1, int col1) {
     row = row1;
     col = col1;
+    notScheduled = true;
 }
 
 
@@ -342,6 +344,7 @@ void MainWindow::on_ct_unscheduled_cellClicked(int row1, int col1) {
 void MainWindow::on_ct_scheduled_cellClicked(int row1, int col1) {
     row = row1;
     col = col1;
+    notScheduled = false;
 }
 
 
@@ -487,7 +490,7 @@ void MainWindow::on_cb_add_clicked() {
 void MainWindow::on_cb_schedule_clicked() { 
     QMessageBox msgBox;
 
-    if (row >= 0) {
+    if (row >= 0 && notScheduled) {
         disconnect(ui->ct_unscheduled->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onDataChangedUnscheduled(const QModelIndex&)));
         disconnect(ui->ct_scheduled->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onDataChangedScheduled(const QModelIndex&)));
 
@@ -502,6 +505,46 @@ void MainWindow::on_cb_schedule_clicked() {
         scheduledList.append(unscheduledList.at(row));
         unscheduledList.removeAt(row);
         row--;
+
+        //Updates calendar database with the project name for the # of the project's hours
+        QString dayTemp = curDayStr;                    //string of day
+        int max = scheduledList.last().GetRemHours();   //remaining time on project
+        int current = curHour.hour()+1;                 //current hour
+        int tempDay = curDay;                           //current day (int)
+
+        for (int i = 0; i <= max; i++) {
+            if (current+i <= 24) {
+                if (ui->ct_table->model()->data(ui->ct_table->model()->index(current+i,tempDay)).toString() == "") {
+                    query.exec("UPDATE calendar SET '" + dayTemp + "'='" + scheduledList.last().GetName() + "' WHERE hour=" + QString::number(current+i+1));
+                    qDebug() << "te";
+                }
+                else
+                    max++;
+            }
+            else {
+                if (dayTemp == "Mon")
+                    dayTemp = "Tue";
+                else if (dayTemp == "Tue")
+                    dayTemp = "Wed";
+                else if (dayTemp == "Wed")
+                    dayTemp = "Thu";
+                else if (dayTemp == "Thu")
+                    dayTemp = "Fri";
+                else if (dayTemp == "Fri")
+                    dayTemp = "Sat";
+                else if (dayTemp == "Sat")
+                    dayTemp = "Sun";
+                else {
+                    dayTemp = "Mon";
+                    tempDay = 0;
+                }
+
+                tempDay++;
+                max -= i-1;
+                current = -1;
+                i = 0;
+            }
+        }
 
         UpdateCalendarTable();
     }
@@ -548,11 +591,11 @@ void MainWindow::on_cb_deleteSc_clicked() {
 
     if (row >= 0) {
         QSqlQuery query(db);
-        qDebug() << row+1;
         query.exec("DELETE FROM scheduled WHERE name='" + scheduledList.at(row).GetName() + "'");
 
         scheduledList.removeAt(row);
         row--;
+        col = -1;
 
         UpdateCalendarTable();
     }
@@ -737,7 +780,6 @@ void MainWindow::on_ab_add_clicked() {
 
     //Error checks name (must be unique)
     if (IsUnique(setName, unscheduledList, scheduledList)) {
-
         //Error checks hours (must be numerical above 0)
         if (setHours == "0") {
             msgBox.setText("ERROR - Hours must be at least 1!");
@@ -754,6 +796,8 @@ void MainWindow::on_ab_add_clicked() {
             QSqlQuery query(db);
             query.exec("INSERT INTO unscheduled (NAME, HOURS, DESC) "
                        "VALUES ('" + setName + "', '" + setHours + "', '" + setDesc + "')");
+
+            col = -1;
 
             UpdateCalendarTable();
             ui->stackedWidget->setCurrentIndex(1);

@@ -82,8 +82,10 @@ class MainWindow : public QMainWindow {
         Ui::MainWindow *ui;             //ui elements
         QSqlDatabase db;                //database
         QTimer *timer;                  //time to auto-update
+        QString curDayStr;              //current day name (Mon, Tue...Sun)
+        QTime curHour;                  //current hour (12,13...23)
 
-        QList<Project> unscheduledList;    //project list (contains unscheduled project objects)
+        QList<Project> unscheduledList;  //project list (contains unscheduled project objects)
         QList<Project> scheduledList;    //project list (contains scheduled project objects)
 
         QString dayStr;                 //string of day: "Mon", "Tue", etc.
@@ -97,6 +99,7 @@ class MainWindow : public QMainWindow {
 
         int row;                        //row selected on table
         int col;                        //column selected on table
+        bool notScheduled;              //false if scheduled project list is selected
 };
 
 #endif // MAINWINDOW_H

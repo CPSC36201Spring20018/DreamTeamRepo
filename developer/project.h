@@ -15,6 +15,7 @@ class Project {
         void SetDesc(QString desc);
         void SetTotalHours(int totalHours);
         void SetRemHours(int remHours);
+        void DecRemHours();
     private:
         QString name;
         QString desc;

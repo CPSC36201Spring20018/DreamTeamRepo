@@ -37,6 +37,28 @@ MainWindow::MainWindow(QWidget *parent) :
     col = -1;
     notScheduled = false;
 
+    //Decrements remaining hours of the top project in the scheduled list using hoursPassed variable
+    //When remaining time is 0, post message saying project is complete, then remove project from unscheduled list.
+    //Also, remove project name from calendar up to current hour (if 'Current' is on a project hour, then that hour is decremented)
+    if (scheduledList.size() > 0) {
+        QSqlQuery query(db);
+        QMessageBox msgBox;
+
+        for (int i = 0; i < countHrs; i++) {
+            if (scheduledList.at(0).GetRemHours() > 0) {
+                scheduledList[0].DecRemHours();
+            }
+            else {
+                msgBox.setText("The " + scheduledList.at(0).GetName() + " project has been completed!");
+                msgBox.exec();
+
+                query.exec("DELETE FROM scheduled WHERE name='" + scheduledList.at(0).GetName() + "'");
+                scheduledList.removeAt(0);
+            }
+        }
+        UpdateCalendarTable();
+    }
+
     //Creates a timer to auto-update InitializeDb function
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(InitializeDb()));
@@ -110,14 +132,17 @@ void MainWindow::InitializeDb() {
     if (daysPassed < 0)
         hoursPassed = 168+hoursPassed;
 
+    countHrs = hoursPassed;
+
     qDebug() << "Hours Passed Since Last Update: " << hoursPassed;
 
-    //Updates a cell from the database. Selects the current day, then to current hour, then sets cell to 1
+    //Updates a cell from the database. Selects the current day, then to current hour, then sets cell to 'Current'
     query.exec("UPDATE calendar SET '" + curDayStr + "'='Current' WHERE hour=" + QString::number(curHour.hour()+1));
 
     //Updates time in upper left corner of calendar page
     ui->ct_time->setText(QDateTime::currentDateTime().toString());
 
+    SearchDb();
 }
 
 
@@ -130,6 +155,7 @@ void MainWindow::InitializeDb() {
  *****************************************************************************/
 void MainWindow::SearchDb() {
     QSqlQuery query(db);        //initial query
+    int count = 1;
 
     //Checks for where "Current" is in the database.
     query.prepare("SELECT * FROM calendar ORDER BY hour");
@@ -138,27 +164,32 @@ void MainWindow::SearchDb() {
     //then counts each hour until current hour.
     for (prevDay = 1; prevDay <= 7; prevDay++) {
         if(query.exec()) {
-            while(query.next()) {\
-                if (query.value(prevDay).toString() == "Current") {
-                    switch(prevDay) {
-                        case 1 : dayStr = "Mon"; curTotalHours = 0; hoursPassed = 0;
-                            break;
-                        case 2 : dayStr = "Tue"; curTotalHours = 24; hoursPassed = 24;
-                            break;
-                        case 3 : dayStr = "Wed"; curTotalHours = 48; hoursPassed = 48;
-                            break;
-                        case 4 : dayStr = "Thu"; curTotalHours = 72; hoursPassed = 72;
-                            break;
-                        case 5 : dayStr = "Fri"; curTotalHours = 96; hoursPassed = 96;
-                            break;
-                        case 6 : dayStr = "Sat"; curTotalHours = 120; hoursPassed = 120;
-                            break;
-                        default: dayStr = "Sun"; curTotalHours = 144; hoursPassed = 144;
-                            break;
-                    }
-
-                    return;
+            while(query.next()) {
+                switch(prevDay) {
+                    case 1 : dayStr = "Mon"; curTotalHours = 0; hoursPassed = 0;
+                        break;
+                    case 2 : dayStr = "Tue"; curTotalHours = 24; hoursPassed = 24;
+                        break;
+                    case 3 : dayStr = "Wed"; curTotalHours = 48; hoursPassed = 48;
+                        break;
+                    case 4 : dayStr = "Thu"; curTotalHours = 72; hoursPassed = 72;
+                        break;
+                    case 5 : dayStr = "Fri"; curTotalHours = 96; hoursPassed = 96;
+                        break;
+                    case 6 : dayStr = "Sat"; curTotalHours = 120; hoursPassed = 120;
+                        break;
+                    default: dayStr = "Sun"; curTotalHours = 144; hoursPassed = 144;
+                        break;
                 }
+                if (query.value(prevDay).toString() == "Current")
+                    return;
+                else if (query.value(prevDay).toString() != "")
+                    query.exec("UPDATE calendar SET '" + dayStr + "'='' WHERE hour=" + QString::number(count));
+
+                if (count < 24)
+                    count++;
+                else
+                    count = 1;
                 prevTotalHours++;
             }
         }
@@ -512,11 +543,10 @@ void MainWindow::on_cb_schedule_clicked() {
         int current = curHour.hour()+1;                 //current hour
         int tempDay = curDay;                           //current day (int)
 
-        for (int i = 0; i <= max; i++) {
+        for (int i = 0; i < max; i++) {
             if (current+i <= 24) {
                 if (ui->ct_table->model()->data(ui->ct_table->model()->index(current+i,tempDay)).toString() == "") {
                     query.exec("UPDATE calendar SET '" + dayTemp + "'='" + scheduledList.last().GetName() + "' WHERE hour=" + QString::number(current+i+1));
-                    qDebug() << "te";
                 }
                 else
                     max++;
@@ -540,7 +570,7 @@ void MainWindow::on_cb_schedule_clicked() {
                 }
 
                 tempDay++;
-                max -= i-1;
+                max -= i-2;
                 current = -1;
                 i = 0;
             }

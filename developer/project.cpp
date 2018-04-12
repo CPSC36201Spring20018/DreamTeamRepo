@@ -117,3 +117,13 @@ void Project::SetTotalHours(int totalHours) {
 void Project::SetRemHours(int remHours) {
     this->remHours = remHours;
 }
+
+
+/*****************************************************************************
+ * DecRemHours
+ *____________________________________________________________________________
+ * This method will decrement the remaining hours.
+ *****************************************************************************/
+void Project::DecRemHours() {
+    remHours--;
+}

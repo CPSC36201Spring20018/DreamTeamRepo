@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[42];
-    char stringdata0[626];
+    QByteArrayData data[43];
+    char stringdata0[633];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -64,16 +64,17 @@ QT_MOC_LITERAL(28, 466, 2), // "to"
 QT_MOC_LITERAL(29, 469, 8), // "comboDay"
 QT_MOC_LITERAL(30, 478, 18), // "UpdateFreeDatabase"
 QT_MOC_LITERAL(31, 497, 3), // "day"
-QT_MOC_LITERAL(32, 501, 19), // "on_sb_apply_clicked"
-QT_MOC_LITERAL(33, 521, 18), // "on_sb_back_clicked"
-QT_MOC_LITERAL(34, 540, 8), // "IsNumber"
-QT_MOC_LITERAL(35, 549, 3), // "str"
-QT_MOC_LITERAL(36, 553, 8), // "IsUnique"
-QT_MOC_LITERAL(37, 562, 14), // "QList<Project>"
-QT_MOC_LITERAL(38, 577, 5), // "list1"
-QT_MOC_LITERAL(39, 583, 5), // "list2"
-QT_MOC_LITERAL(40, 589, 17), // "on_ab_add_clicked"
-QT_MOC_LITERAL(41, 607, 18) // "on_ab_back_clicked"
+QT_MOC_LITERAL(32, 501, 6), // "dayNum"
+QT_MOC_LITERAL(33, 508, 19), // "on_sb_apply_clicked"
+QT_MOC_LITERAL(34, 528, 18), // "on_sb_back_clicked"
+QT_MOC_LITERAL(35, 547, 8), // "IsNumber"
+QT_MOC_LITERAL(36, 556, 3), // "str"
+QT_MOC_LITERAL(37, 560, 8), // "IsUnique"
+QT_MOC_LITERAL(38, 569, 14), // "QList<Project>"
+QT_MOC_LITERAL(39, 584, 5), // "list1"
+QT_MOC_LITERAL(40, 590, 5), // "list2"
+QT_MOC_LITERAL(41, 596, 17), // "on_ab_add_clicked"
+QT_MOC_LITERAL(42, 614, 18) // "on_ab_back_clicked"
 
     },
     "MainWindow\0InitializeDb\0\0SearchDb\0"
@@ -88,7 +89,7 @@ QT_MOC_LITERAL(41, 607, 18) // "on_ab_back_clicked"
     "on_cb_deleteUn_clicked\0on_cb_deleteSc_clicked\0"
     "on_cb_back_clicked\0UpdateComboBox\0"
     "CheckFreeHours\0QComboBox*\0from\0to\0"
-    "comboDay\0UpdateFreeDatabase\0day\0"
+    "comboDay\0UpdateFreeDatabase\0day\0dayNum\0"
     "on_sb_apply_clicked\0on_sb_back_clicked\0"
     "IsNumber\0str\0IsUnique\0QList<Project>\0"
     "list1\0list2\0on_ab_add_clicked\0"
@@ -131,13 +132,13 @@ static const uint qt_meta_data_MainWindow[] = {
       23,    0,  184,    2, 0x08 /* Private */,
       24,    0,  185,    2, 0x08 /* Private */,
       25,    3,  186,    2, 0x08 /* Private */,
-      30,    3,  193,    2, 0x08 /* Private */,
-      32,    0,  200,    2, 0x08 /* Private */,
-      33,    0,  201,    2, 0x08 /* Private */,
-      34,    1,  202,    2, 0x08 /* Private */,
-      36,    3,  205,    2, 0x08 /* Private */,
-      40,    0,  212,    2, 0x08 /* Private */,
-      41,    0,  213,    2, 0x08 /* Private */,
+      30,    4,  193,    2, 0x08 /* Private */,
+      33,    0,  202,    2, 0x08 /* Private */,
+      34,    0,  203,    2, 0x08 /* Private */,
+      35,    1,  204,    2, 0x08 /* Private */,
+      37,    3,  207,    2, 0x08 /* Private */,
+      41,    0,  214,    2, 0x08 /* Private */,
+      42,    0,  215,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -161,11 +162,11 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Bool, 0x80000000 | 26, 0x80000000 | 26, QMetaType::QString,   27,   28,   29,
-    QMetaType::Void, 0x80000000 | 26, 0x80000000 | 26, QMetaType::QString,   27,   28,   31,
+    QMetaType::Void, 0x80000000 | 26, 0x80000000 | 26, QMetaType::QString, QMetaType::Int,   27,   28,   31,   32,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Bool, QMetaType::QString,   35,
-    QMetaType::Bool, QMetaType::QString, 0x80000000 | 37, 0x80000000 | 37,   35,   38,   39,
+    QMetaType::Bool, QMetaType::QString,   36,
+    QMetaType::Bool, QMetaType::QString, 0x80000000 | 38, 0x80000000 | 38,   36,   39,   40,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -200,7 +201,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 19: _t->UpdateComboBox(); break;
         case 20: { bool _r = _t->CheckFreeHours((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 21: _t->UpdateFreeDatabase((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 21: _t->UpdateFreeDatabase((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
         case 22: _t->on_sb_apply_clicked(); break;
         case 23: _t->on_sb_back_clicked(); break;
         case 24: { bool _r = _t->IsNumber((*reinterpret_cast< const QString(*)>(_a[1])));

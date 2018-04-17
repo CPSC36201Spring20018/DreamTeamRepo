@@ -12,12 +12,21 @@
  * This project will create a smart calendar for the user.
  *
  * TO DO:
- *      1:
+ *      1: When adding free time to calendar, place mark each cell that is not
+ *         free time with an "X" (reverse of what we have now)
+ *      2: When the current hour lands on an OPEN cell, change to "Current/OPEN".
+ *         Fix all connections to detecting a current cell.
+ *         When Current hour is removed, replace with OPEN again
+ *      3: When current hour lands on "X" free time, don't decrement remaining hrs
+ *      4: On Free Time page, make so the combo boxes read from database.
  *
  * KNOWN BUGS:
- *      1: When current hour is same hour as free hours, there exists a blank
- *         space directly after the current hour (where there should be a
- *         "Free" space).
+ *      1: When the user adds a task, then edits free hours, this can create
+ *         one or more open cells in the calendar before the added task. If
+ *         the user adds another project, it will place project hours before
+ *         the first added project. When the program decrements remaining
+ *         hours, it will decrement from the 1st task instead of the 2nd.
+ *         Look at page 50 in mainwindow.cpp to fix.
  *****************************************************************************/
 
 namespace Ui {
@@ -60,18 +69,19 @@ class MainWindow : public QMainWindow {
         void on_cb_back_clicked();      //button back clicked
 
         //SET HOURS
-        void UpdateComboBox();          //updates hours in combo boxes
+        void UpdateComboBox();                   //updates hours in combo boxes
         bool CheckFreeHours(QComboBox* from,
                             QComboBox* to,
-                            QString comboDay); //checks the free hours combo boxes
+                            QString comboDay);   //checks the free hours combo boxes
         void UpdateFreeDatabase(QComboBox* from,
                                 QComboBox* to,
-                                QString day);  //updates that free hours database
+                                QString day,
+                                int dayNum);     //updates that free hours database
         void on_sb_apply_clicked();     //button apply clicked
         void on_sb_back_clicked();      //button back clicked
 
         //ADD TASK
-        bool IsNumber(const QString& str);  //if string is a number over 0
+        bool IsNumber(const QString& str);           //if string is a number over 0
         bool IsUnique(const QString& str,
                       const QList<Project>& list1,
                       const QList<Project>& list2);  //if string is unique
@@ -85,8 +95,8 @@ class MainWindow : public QMainWindow {
         QString curDayStr;              //current day name (Mon, Tue...Sun)
         QTime curHour;                  //current hour (12,13...23)
 
-        QList<Project> unscheduledList;  //project list (contains unscheduled project objects)
-        QList<Project> scheduledList;    //project list (contains scheduled project objects)
+        QList<Project> unscheduledList; //project list (contains unscheduled project objects)
+        QList<Project> scheduledList;   //project list (contains scheduled project objects)
 
         QString dayStr;                 //string of day: "Mon", "Tue", etc.
         int countHrs;                   //used in calculation for counting hours
@@ -100,6 +110,7 @@ class MainWindow : public QMainWindow {
         int row;                        //row selected on table
         int col;                        //column selected on table
         bool notScheduled;              //false if scheduled project list is selected
+        bool isFree;                    //false if current hour is not on free time
 };
 
 #endif // MAINWINDOW_H

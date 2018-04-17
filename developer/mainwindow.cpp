@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
+    isFree = true;
 
     //Database
     db = QSqlDatabase::addDatabase("QSQLITE");
@@ -39,14 +40,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Decrements remaining hours of the top project in the scheduled list using hoursPassed variable
     //When remaining time is 0, post message saying project is complete, then remove project from unscheduled list.
-    //Also, remove project name from calendar up to current hour (if 'Current' is on a project hour, then that hour is decremented)
+    //Also, remove project name from calendar up to current hour (if "Current" is on a project hour, then that hour is decremented)
     if (scheduledList.size() > 0) {
         QSqlQuery query(db);
         QMessageBox msgBox;
 
+        /* //Finds the index of the selected project
+        for (int i = 0; i < scheduledList.size(); i++)
+            if (scheduledList.at(i).GetName() == ui->ct_table->model()->data(ui->ct_table->model()->index(i,tempDay)).toString())
+        */
+
         for (int i = 0; i < countHrs; i++) {
             if (scheduledList.at(0).GetRemHours() > 0) {
                 scheduledList[0].DecRemHours();
+                query.exec("UPDATE scheduled SET left='" + QString::number(scheduledList.at(0).GetRemHours()) + "' WHERE name='" + scheduledList.at(0).GetName() + "'");
             }
             else {
                 msgBox.setText("The " + scheduledList.at(0).GetName() + " project has been completed!");
@@ -136,8 +143,13 @@ void MainWindow::InitializeDb() {
 
     qDebug() << "Hours Passed Since Last Update: " << hoursPassed;
 
-    //Updates a cell from the database. Selects the current day, then to current hour, then sets cell to 'Current'
-    query.exec("UPDATE calendar SET '" + curDayStr + "'='Current' WHERE hour=" + QString::number(curHour.hour()+1));
+    //Updates a cell from the database. Selects the current day, then to current hour, then sets cell to "Current"
+    query.prepare("SELECT * FROM calendar ORDER BY hour");
+
+    if (isFree)
+        query.exec("UPDATE calendar SET '" + curDayStr + "'='Current' WHERE hour=" + QString::number(curHour.hour()+1));
+    else
+        query.exec("UPDATE calendar SET '" + curDayStr + "'='X/Current' WHERE hour=" + QString::number(curHour.hour()+1));
 
     //Updates time in upper left corner of calendar page
     ui->ct_time->setText(QDateTime::currentDateTime().toString());
@@ -181,15 +193,16 @@ void MainWindow::SearchDb() {
                     default: dayStr = "Sun"; curTotalHours = 144; hoursPassed = 144;
                         break;
                 }
-                if (query.value(prevDay).toString() == "Current")
+                if (query.value(prevDay).toString() == "Current" || query.value(prevDay).toString() == "X/Current" )
                     return;
-                else if (query.value(prevDay).toString() != "")
+                else if (query.value(prevDay).toString() != "" && query.value(prevDay).toString() != "X")
                     query.exec("UPDATE calendar SET '" + dayStr + "'='' WHERE hour=" + QString::number(count));
 
                 if (count < 24)
                     count++;
                 else
                     count = 1;
+
                 prevTotalHours++;
             }
         }
@@ -708,15 +721,39 @@ bool MainWindow::CheckFreeHours(QComboBox* from, QComboBox* to, QString comboDay
  * from hour free. Go down column until you hit to hour free, then go to next
  * column.
  *****************************************************************************/
-void MainWindow::UpdateFreeDatabase(QComboBox* from, QComboBox* to, QString day) {
+void MainWindow::UpdateFreeDatabase(QComboBox* from, QComboBox* to, QString day, int dayNum) {
     QSqlQuery query(db);
     query.exec("UPDATE freeTime SET '" + day + "'='" + from->itemText(from->currentIndex()) + "' WHERE FROM_TO=1");
     query.exec("UPDATE freeTime SET '" + day + "'='" + to->itemText(to->currentIndex()) + "' WHERE FROM_TO=2");
 
-    //Updates calendar database with "Open"
+    //Deletes all previous X's
+    for (int i = 1; i <= 24; i++) {
+        if (ui->ct_table->model()->data(ui->ct_table->model()->index(i-1,dayNum)).toString() == "X")
+            query.exec("UPDATE calendar SET '" + day + "'='' WHERE hour=" + QString::number(i));
+        else if (ui->ct_table->model()->data(ui->ct_table->model()->index(i-1,dayNum)).toString() == "X/Current")
+            query.exec("UPDATE calendar SET '" + day + "'='Current' WHERE hour=" + QString::number(i));
+    }
+
+    //Updates calendar database with "X" on not free time
     if (from->currentIndex() != to->currentIndex()) {
-        for (int count = from->currentIndex(); count <= to->currentIndex(); count++) {
-            query.exec("UPDATE calendar SET '" + day + "'='OPEN' WHERE hour=" + QString::number(count));
+        for (int count = 1; count < from->currentIndex(); count++) {
+            if (ui->ct_table->model()->data(ui->ct_table->model()->index(count-1,dayNum)).toString() != "Current") {
+                query.exec("UPDATE calendar SET '" + day + "'='X' WHERE hour=" + QString::number(count));
+            }
+            else if (ui->ct_table->model()->data(ui->ct_table->model()->index(count-1,dayNum)).toString() == "Current") {
+                query.exec("UPDATE calendar SET '" + day + "'='X/Current' WHERE hour=" + QString::number(count));
+                isFree = false;
+            }
+        }
+
+        for (int count = to->currentIndex()+1; count <= 24; count++) {
+            if (ui->ct_table->model()->data(ui->ct_table->model()->index(count-1,dayNum)).toString() != "Current") {
+                query.exec("UPDATE calendar SET '" + day + "'='X' WHERE hour=" + QString::number(count));
+            }
+            else if (ui->ct_table->model()->data(ui->ct_table->model()->index(count-1,dayNum)).toString() == "Current") {
+                query.exec("UPDATE calendar SET '" + day + "'='X/Current' WHERE hour=" + QString::number(count));
+                isFree = false;
+            }
         }
     }
 }
@@ -730,6 +767,7 @@ void MainWindow::UpdateFreeDatabase(QComboBox* from, QComboBox* to, QString day)
  * database.
  *****************************************************************************/
 void MainWindow::on_sb_apply_clicked() {
+    isFree = true;
     if (CheckFreeHours(ui->sc_monFrom, ui->sc_monTo, "Monday")    &&
         CheckFreeHours(ui->sc_tueFrom, ui->sc_tueTo, "Tuesday")   &&
         CheckFreeHours(ui->sc_wedFrom, ui->sc_wedTo, "Wednesday") &&
@@ -739,13 +777,13 @@ void MainWindow::on_sb_apply_clicked() {
         CheckFreeHours(ui->sc_sunFrom, ui->sc_sunTo, "Sunday")) {
 
         //Updating
-        UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "MON");
-        UpdateFreeDatabase(ui->sc_tueFrom, ui->sc_tueTo, "TUE");
-        UpdateFreeDatabase(ui->sc_wedFrom, ui->sc_wedTo, "WED");
-        UpdateFreeDatabase(ui->sc_thuFrom, ui->sc_thuTo, "THU");
-        UpdateFreeDatabase(ui->sc_friFrom, ui->sc_friTo, "FRI");
-        UpdateFreeDatabase(ui->sc_satFrom, ui->sc_satTo, "SAT");
-        UpdateFreeDatabase(ui->sc_sunFrom, ui->sc_sunTo, "SUN");
+        UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "MON", 1);
+        UpdateFreeDatabase(ui->sc_tueFrom, ui->sc_tueTo, "TUE", 2);
+        UpdateFreeDatabase(ui->sc_wedFrom, ui->sc_wedTo, "WED", 3);
+        UpdateFreeDatabase(ui->sc_thuFrom, ui->sc_thuTo, "THU", 4);
+        UpdateFreeDatabase(ui->sc_friFrom, ui->sc_friTo, "FRI", 5);
+        UpdateFreeDatabase(ui->sc_satFrom, ui->sc_satTo, "SAT", 6);
+        UpdateFreeDatabase(ui->sc_sunFrom, ui->sc_sunTo, "SUN", 7);
 
         //Initialize database
         InitializeDb();

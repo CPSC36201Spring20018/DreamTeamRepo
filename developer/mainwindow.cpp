@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
+    this->setWindowTitle("Smart Calendar");
     isFree = true;
 
     //Database

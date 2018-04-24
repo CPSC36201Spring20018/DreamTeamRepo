@@ -46,11 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
         QSqlQuery query(db);
         QMessageBox msgBox;
 
-        /* //Finds the index of the selected project
-        for (int i = 0; i < scheduledList.size(); i++)
-            if (scheduledList.at(i).GetName() == ui->ct_table->model()->data(ui->ct_table->model()->index(i,tempDay)).toString())
-        */
-
         for (int i = 0; i < countHrs; i++) {
             if (scheduledList.at(0).GetRemHours() > 0) {
                 scheduledList[0].DecRemHours();
@@ -109,6 +104,12 @@ void MainWindow::InitializeDb() {
     else
         curDay = 7;
 
+    //Checks if there is an 'X' in the table on the current hour
+    UpdateCalendarTable();
+    if (ui->ct_table->model()->data(ui->ct_table->model()->index(curHour.hour(),curDay)).toString() == "X" ||
+        ui->ct_table->model()->data(ui->ct_table->model()->index(curHour.hour(),curDay)).toString() == "X/Current")
+        isFree = false;
+
     //Searches for the ealier "Current", then updates the hour to how many hours passed, the dayStr to ealier day,
     SearchDb();
 
@@ -147,8 +148,14 @@ void MainWindow::InitializeDb() {
     //Updates a cell from the database. Selects the current day, then to current hour, then sets cell to "Current"
     query.prepare("SELECT * FROM calendar ORDER BY hour");
 
-    if (isFree)
+
+
+if (ui->ct_table->model()->data(ui->ct_table->model()->index(curTotalHours,curDay)).toString() == "X")
+            qDebug() << "testing5";
+
+    if (isFree) {
         query.exec("UPDATE calendar SET '" + curDayStr + "'='Current' WHERE hour=" + QString::number(curHour.hour()+1));
+    }
     else
         query.exec("UPDATE calendar SET '" + curDayStr + "'='X/Current' WHERE hour=" + QString::number(curHour.hour()+1));
 

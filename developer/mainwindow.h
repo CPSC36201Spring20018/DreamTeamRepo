@@ -12,13 +12,6 @@
  * This project will create a smart calendar for the user.
  *
  * TO DO:
- *      1: When adding free time to calendar, place mark each cell that is not
- *         free time with an "X" (reverse of what we have now)
- *      2: When the current hour lands on an OPEN cell, change to "Current/OPEN".
- *         Fix all connections to detecting a current cell.
- *         When Current hour is removed, replace with OPEN again
- *      3: When current hour lands on "X" free time, don't decrement remaining hrs
- *      4: On Free Time page, make so the combo boxes read from database.
  *
  * KNOWN BUGS:
  *      1: When adding free hours over a project hour, it will overwrite the project

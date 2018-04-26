@@ -639,10 +639,30 @@ void MainWindow::on_cb_deleteUn_clicked() {
  *****************************************************************************/
 void MainWindow::on_cb_deleteSc_clicked() {
     QMessageBox msgBox;
+    QString dayAr[] = {"mon","tue","wed","thu","fri","sat","sun"};
 
     if (row >= 0) {
         QSqlQuery query(db);
+        QSqlQuery query2(db);
         query.exec("DELETE FROM scheduled WHERE name='" + scheduledList.at(row).GetName() + "'");
+
+        //Removing all cells with project name on them
+        int count = 1;
+        query.prepare("SELECT * FROM calendar ORDER BY hour");
+
+        for (int i = 1; i < 7; i++) {
+            if(query.exec()) {
+                while(query.next()) {
+                    if (query.value(dayAr[i]).toString() == scheduledList.at(row).GetName())
+                        query2.exec("UPDATE calendar SET '" + dayAr[i] + "'='' WHERE hour=" + QString::number(count));
+
+                    if (count < 24)
+                        count++;
+                    else
+                        count = 1;
+                }
+            }
+        }
 
         scheduledList.removeAt(row);
         row--;

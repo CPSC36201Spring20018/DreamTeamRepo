@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(1);
     this->setWindowTitle("Smart Calendar");
     isFree = true;
 
@@ -315,18 +315,20 @@ void MainWindow::UpdateUnscheduledTable() {
  *****************************************************************************/
 void MainWindow::UpdateScheduledTable() {
     ui->ct_scheduled->setRowCount(scheduledList.count());
-    ui->ct_scheduled->setColumnCount(4);
+    ui->ct_scheduled->setColumnCount(5);
 
     ui->ct_scheduled->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
     ui->ct_scheduled->setHorizontalHeaderItem(1, new QTableWidgetItem("Hours"));
     ui->ct_scheduled->setHorizontalHeaderItem(2, new QTableWidgetItem("Left"));
-    ui->ct_scheduled->setHorizontalHeaderItem(3, new QTableWidgetItem("Desc."));
+    ui->ct_scheduled->setHorizontalHeaderItem(3, new QTableWidgetItem("Due"));
+    ui->ct_scheduled->setHorizontalHeaderItem(4, new QTableWidgetItem("Desc."));
 
     for (int i = 0; i < scheduledList.count(); i++) {
         ui->ct_scheduled->setItem(i, 0, new QTableWidgetItem(scheduledList.at(i).GetName()));
         ui->ct_scheduled->setItem(i, 1, new QTableWidgetItem(QString::number(scheduledList.at(i).GetTotalHours())));
         ui->ct_scheduled->setItem(i, 2, new QTableWidgetItem(QString::number(scheduledList.at(i).GetRemHours())));
-        ui->ct_scheduled->setItem(i, 3, new QTableWidgetItem(scheduledList.at(i).GetDesc()));
+        ui->ct_scheduled->setItem(i, 3, new QTableWidgetItem(scheduledList.at(i).GetDateDue()));
+        ui->ct_scheduled->setItem(i, 4, new QTableWidgetItem(scheduledList.at(i).GetDesc()));
     }
 
     ui->ct_scheduled->resizeColumnsToContents();
@@ -563,7 +565,7 @@ void MainWindow::on_cb_schedule_clicked() {
         int max = scheduledList.last().GetRemHours();   //remaining time on project
         int current = curHour.hour()+1;                 //current hour
         int tempDay = curDay;                           //current day (int)
-
+int temp = 0;
         for (int i = 0; i < max; i++) {
             if (current+i <= 24) {
                 if (ui->ct_table->model()->data(ui->ct_table->model()->index(current+i,tempDay)).toString() == "") {
@@ -595,7 +597,14 @@ void MainWindow::on_cb_schedule_clicked() {
                 current = -1;
                 i = 0;
             }
+            temp = current+i;
         }
+
+        //Setting date due for project
+        if (temp < 12)
+            scheduledList.last().SetDateDue(dayTemp + ": " + QString::number(temp+1) + " AM");
+        else
+            scheduledList.last().SetDateDue(dayTemp + ": " + QString::number(temp-11) + " PM");
 
         UpdateCalendarTable();
     }

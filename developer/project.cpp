@@ -10,6 +10,7 @@ Project::Project() {
     desc = "";
     totalHours = 0;
     remHours = 0;
+    dateDue = "";
 }
 
 
@@ -23,6 +24,7 @@ Project::Project(QString name, int totalHours, int remHours, QString desc) {
     this->totalHours = totalHours;
     this->remHours = remHours;
     this->desc = desc;
+    dateDue = "";
 }
 
 
@@ -36,6 +38,7 @@ Project::Project(QString name, int totalHours, QString desc) {
     this->totalHours = totalHours;
     this->remHours = totalHours;
     this->desc = desc;
+    dateDue = "";
 }
 
 
@@ -80,6 +83,16 @@ int Project::GetRemHours() const {
 
 
 /*****************************************************************************
+ * GetDateDue
+ *____________________________________________________________________________
+ * This method will return the date due on the project.
+ *****************************************************************************/
+QString Project::GetDateDue() const {
+    return dateDue;
+}
+
+
+/*****************************************************************************
  * SetName
  *____________________________________________________________________________
  * This method will set the name.
@@ -116,6 +129,16 @@ void Project::SetTotalHours(int totalHours) {
  *****************************************************************************/
 void Project::SetRemHours(int remHours) {
     this->remHours = remHours;
+}
+
+
+/*****************************************************************************
+ * SetDateDue
+ *____________________________________________________________________________
+ * This method will set the date due.
+ *****************************************************************************/
+void Project::SetDateDue(QString date) {
+    this->dateDue = date;
 }
 
 

@@ -12,7 +12,10 @@
  * This project will create a smart calendar for the user.
  *
  * TO DO:
- *      1: When adding free time to calendar, place mark each cell that is not
+ *      1: When deleting a scheuled project, the calendar should shift all
+ *         future projects to the start of the removed project hour. This will
+ *         essentially remove the deleted project hours from the calendar.
+ *      2: When adding free time to calendar, place mark each cell that is not
  *         free time with an "X" (reverse of what we have now)
  *      2: When the current hour lands on an OPEN cell, change to "Current/OPEN".
  *         Fix all connections to detecting a current cell.
@@ -21,7 +24,9 @@
  *      4: On Free Time page, make so the combo boxes read from database.
  *
  * KNOWN BUGS:
- *      1: When the user adds a task, then edits free hours, this can create
+ *      1: When adding free hours over a project hour, it will overwrite the project
+ *         hour. It should move the project hour to the next free hour.
+ *      2: When the user adds a task, then edits free hours, this can create
  *         one or more open cells in the calendar before the added task. If
  *         the user adds another project, it will place project hours before
  *         the first added project. When the program decrements remaining

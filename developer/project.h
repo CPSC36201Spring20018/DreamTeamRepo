@@ -11,16 +11,21 @@ class Project {
         QString GetDesc() const;
         int GetTotalHours() const;
         int GetRemHours() const;
+        QString GetDateDue() const;
+
         void SetName(QString name);
         void SetDesc(QString desc);
         void SetTotalHours(int totalHours);
         void SetRemHours(int remHours);
+        void SetDateDue(QString date);
+
         void DecRemHours();
     private:
         QString name;
         QString desc;
         int totalHours;
         int remHours;
+        QString dateDue;
 };
 
 #endif

@@ -12,10 +12,7 @@
  * This project will create a smart calendar for the user.
  *
  * TO DO:
- *      1: When deleting a scheuled project, the calendar should shift all
- *         future projects to the start of the removed project hour. This will
- *         essentially remove the deleted project hours from the calendar.
- *      2: When adding free time to calendar, place mark each cell that is not
+ *      1: When adding free time to calendar, place mark each cell that is not
  *         free time with an "X" (reverse of what we have now)
  *      2: When the current hour lands on an OPEN cell, change to "Current/OPEN".
  *         Fix all connections to detecting a current cell.

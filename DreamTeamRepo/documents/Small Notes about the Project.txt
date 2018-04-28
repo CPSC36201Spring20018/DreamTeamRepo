@@ -1,0 +1,7 @@
+-Free Time Blocks don't have a requirement for defining the Day they are on, they only define the Start and End Times
+
+-We don't have a requirement explaining what happens if the user never leaves the prompt when the Due Date of a Task hits
+	*What happens if a second Task's Due Date hits while the user is still on the screen for a previous Task?
+
+-Creating a Task could be simplified down to just adding a completely empty Task to the Unassigned Tasks list, rather than having a whole Create Task window to go through
+	*The empty Task could then just be taken over by the Modify Unassigned Tasks requirements

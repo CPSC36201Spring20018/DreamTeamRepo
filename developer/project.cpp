@@ -1,5 +1,4 @@
 #include "project.h"
-
 /*****************************************************************************
  * Project
  *____________________________________________________________________________
@@ -88,6 +87,33 @@ int Project::GetRemHours() const {
  * This method will return the date due on the project.
  *****************************************************************************/
 QString Project::GetDateDue() const {
+    int d = due;
+    QString temp;
+
+    switch(d){
+    case 0:
+        return "Monday";
+        break;
+    case 1:
+        return "Tuesday";
+        break;
+    case 2:
+        return "Wednesday";
+        break;
+    case 3:
+        return "Thursday";
+        break;
+    case 4:
+        return "Friday";
+        break;
+    case 5:
+        return "Saturday";
+        break;
+    case 6:
+        return "Sunday";
+        break;
+    }
+
     return dateDue;
 }
 
@@ -149,4 +175,13 @@ void Project::SetDateDue(QString date) {
  *****************************************************************************/
 void Project::DecRemHours() {
     remHours--;
+}
+
+/*****************************************************************************
+ * setDue
+ *____________________________________________________________________________
+ * This method will set an integer due date.
+ *****************************************************************************/
+void Project::setDue(int due){
+    this->due = due;
 }

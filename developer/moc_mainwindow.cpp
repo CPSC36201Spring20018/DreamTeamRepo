@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.9.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.7.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -13,17 +13,15 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'mainwindow.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.9.1. It"
+#error "This file was generated using the moc from 5.7.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-QT_WARNING_PUSH
-QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[43];
-    char stringdata0[633];
+    QByteArrayData data[44];
+    char stringdata0[642];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -56,25 +54,26 @@ QT_MOC_LITERAL(20, 332, 22), // "on_cb_schedule_clicked"
 QT_MOC_LITERAL(21, 355, 22), // "on_cb_deleteUn_clicked"
 QT_MOC_LITERAL(22, 378, 22), // "on_cb_deleteSc_clicked"
 QT_MOC_LITERAL(23, 401, 18), // "on_cb_back_clicked"
-QT_MOC_LITERAL(24, 420, 14), // "UpdateComboBox"
-QT_MOC_LITERAL(25, 435, 14), // "CheckFreeHours"
-QT_MOC_LITERAL(26, 450, 10), // "QComboBox*"
-QT_MOC_LITERAL(27, 461, 4), // "from"
-QT_MOC_LITERAL(28, 466, 2), // "to"
-QT_MOC_LITERAL(29, 469, 8), // "comboDay"
-QT_MOC_LITERAL(30, 478, 18), // "UpdateFreeDatabase"
-QT_MOC_LITERAL(31, 497, 3), // "day"
-QT_MOC_LITERAL(32, 501, 6), // "dayNum"
-QT_MOC_LITERAL(33, 508, 19), // "on_sb_apply_clicked"
-QT_MOC_LITERAL(34, 528, 18), // "on_sb_back_clicked"
-QT_MOC_LITERAL(35, 547, 8), // "IsNumber"
-QT_MOC_LITERAL(36, 556, 3), // "str"
-QT_MOC_LITERAL(37, 560, 8), // "IsUnique"
-QT_MOC_LITERAL(38, 569, 14), // "QList<Project>"
-QT_MOC_LITERAL(39, 584, 5), // "list1"
-QT_MOC_LITERAL(40, 590, 5), // "list2"
-QT_MOC_LITERAL(41, 596, 17), // "on_ab_add_clicked"
-QT_MOC_LITERAL(42, 614, 18) // "on_ab_back_clicked"
+QT_MOC_LITERAL(24, 420, 8), // "totalHrs"
+QT_MOC_LITERAL(25, 429, 14), // "UpdateComboBox"
+QT_MOC_LITERAL(26, 444, 14), // "CheckFreeHours"
+QT_MOC_LITERAL(27, 459, 10), // "QComboBox*"
+QT_MOC_LITERAL(28, 470, 4), // "from"
+QT_MOC_LITERAL(29, 475, 2), // "to"
+QT_MOC_LITERAL(30, 478, 8), // "comboDay"
+QT_MOC_LITERAL(31, 487, 18), // "UpdateFreeDatabase"
+QT_MOC_LITERAL(32, 506, 3), // "day"
+QT_MOC_LITERAL(33, 510, 6), // "dayNum"
+QT_MOC_LITERAL(34, 517, 19), // "on_sb_apply_clicked"
+QT_MOC_LITERAL(35, 537, 18), // "on_sb_back_clicked"
+QT_MOC_LITERAL(36, 556, 8), // "IsNumber"
+QT_MOC_LITERAL(37, 565, 3), // "str"
+QT_MOC_LITERAL(38, 569, 8), // "IsUnique"
+QT_MOC_LITERAL(39, 578, 14), // "QList<Project>"
+QT_MOC_LITERAL(40, 593, 5), // "list1"
+QT_MOC_LITERAL(41, 599, 5), // "list2"
+QT_MOC_LITERAL(42, 605, 17), // "on_ab_add_clicked"
+QT_MOC_LITERAL(43, 623, 18) // "on_ab_back_clicked"
 
     },
     "MainWindow\0InitializeDb\0\0SearchDb\0"
@@ -87,7 +86,7 @@ QT_MOC_LITERAL(42, 614, 18) // "on_ab_back_clicked"
     "onDataChangedScheduled\0on_cb_set_clicked\0"
     "on_cb_add_clicked\0on_cb_schedule_clicked\0"
     "on_cb_deleteUn_clicked\0on_cb_deleteSc_clicked\0"
-    "on_cb_back_clicked\0UpdateComboBox\0"
+    "on_cb_back_clicked\0totalHrs\0UpdateComboBox\0"
     "CheckFreeHours\0QComboBox*\0from\0to\0"
     "comboDay\0UpdateFreeDatabase\0day\0dayNum\0"
     "on_sb_apply_clicked\0on_sb_back_clicked\0"
@@ -103,7 +102,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      28,   14, // methods
+      29,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -111,34 +110,35 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  154,    2, 0x08 /* Private */,
-       3,    0,  155,    2, 0x08 /* Private */,
-       4,    0,  156,    2, 0x08 /* Private */,
-       5,    0,  157,    2, 0x08 /* Private */,
-       6,    0,  158,    2, 0x08 /* Private */,
-       7,    0,  159,    2, 0x08 /* Private */,
-       8,    0,  160,    2, 0x08 /* Private */,
-       9,    0,  161,    2, 0x08 /* Private */,
-      10,    0,  162,    2, 0x08 /* Private */,
-      11,    2,  163,    2, 0x08 /* Private */,
-      14,    2,  168,    2, 0x08 /* Private */,
-      15,    1,  173,    2, 0x08 /* Private */,
-      17,    1,  176,    2, 0x08 /* Private */,
-      18,    0,  179,    2, 0x08 /* Private */,
-      19,    0,  180,    2, 0x08 /* Private */,
-      20,    0,  181,    2, 0x08 /* Private */,
-      21,    0,  182,    2, 0x08 /* Private */,
-      22,    0,  183,    2, 0x08 /* Private */,
-      23,    0,  184,    2, 0x08 /* Private */,
-      24,    0,  185,    2, 0x08 /* Private */,
-      25,    3,  186,    2, 0x08 /* Private */,
-      30,    4,  193,    2, 0x08 /* Private */,
-      33,    0,  202,    2, 0x08 /* Private */,
-      34,    0,  203,    2, 0x08 /* Private */,
-      35,    1,  204,    2, 0x08 /* Private */,
-      37,    3,  207,    2, 0x08 /* Private */,
-      41,    0,  214,    2, 0x08 /* Private */,
-      42,    0,  215,    2, 0x08 /* Private */,
+       1,    0,  159,    2, 0x08 /* Private */,
+       3,    0,  160,    2, 0x08 /* Private */,
+       4,    0,  161,    2, 0x08 /* Private */,
+       5,    0,  162,    2, 0x08 /* Private */,
+       6,    0,  163,    2, 0x08 /* Private */,
+       7,    0,  164,    2, 0x08 /* Private */,
+       8,    0,  165,    2, 0x08 /* Private */,
+       9,    0,  166,    2, 0x08 /* Private */,
+      10,    0,  167,    2, 0x08 /* Private */,
+      11,    2,  168,    2, 0x08 /* Private */,
+      14,    2,  173,    2, 0x08 /* Private */,
+      15,    1,  178,    2, 0x08 /* Private */,
+      17,    1,  181,    2, 0x08 /* Private */,
+      18,    0,  184,    2, 0x08 /* Private */,
+      19,    0,  185,    2, 0x08 /* Private */,
+      20,    0,  186,    2, 0x08 /* Private */,
+      21,    0,  187,    2, 0x08 /* Private */,
+      22,    0,  188,    2, 0x08 /* Private */,
+      23,    0,  189,    2, 0x08 /* Private */,
+      24,    0,  190,    2, 0x08 /* Private */,
+      25,    0,  191,    2, 0x08 /* Private */,
+      26,    3,  192,    2, 0x08 /* Private */,
+      31,    4,  199,    2, 0x08 /* Private */,
+      34,    0,  208,    2, 0x08 /* Private */,
+      35,    0,  209,    2, 0x08 /* Private */,
+      36,    1,  210,    2, 0x08 /* Private */,
+      38,    3,  213,    2, 0x08 /* Private */,
+      42,    0,  220,    2, 0x08 /* Private */,
+      43,    0,  221,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -160,13 +160,14 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Int,
     QMetaType::Void,
-    QMetaType::Bool, 0x80000000 | 26, 0x80000000 | 26, QMetaType::QString,   27,   28,   29,
-    QMetaType::Void, 0x80000000 | 26, 0x80000000 | 26, QMetaType::QString, QMetaType::Int,   27,   28,   31,   32,
+    QMetaType::Bool, 0x80000000 | 27, 0x80000000 | 27, QMetaType::QString,   28,   29,   30,
+    QMetaType::Void, 0x80000000 | 27, 0x80000000 | 27, QMetaType::QString, QMetaType::Int,   28,   29,   32,   33,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Bool, QMetaType::QString,   36,
-    QMetaType::Bool, QMetaType::QString, 0x80000000 | 38, 0x80000000 | 38,   36,   39,   40,
+    QMetaType::Bool, QMetaType::QString,   37,
+    QMetaType::Bool, QMetaType::QString, 0x80000000 | 39, 0x80000000 | 39,   37,   40,   41,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -198,24 +199,26 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 16: _t->on_cb_deleteUn_clicked(); break;
         case 17: _t->on_cb_deleteSc_clicked(); break;
         case 18: _t->on_cb_back_clicked(); break;
-        case 19: _t->UpdateComboBox(); break;
-        case 20: { bool _r = _t->CheckFreeHours((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 21: _t->UpdateFreeDatabase((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
-        case 22: _t->on_sb_apply_clicked(); break;
-        case 23: _t->on_sb_back_clicked(); break;
-        case 24: { bool _r = _t->IsNumber((*reinterpret_cast< const QString(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 25: { bool _r = _t->IsUnique((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QList<Project>(*)>(_a[2])),(*reinterpret_cast< const QList<Project>(*)>(_a[3])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 26: _t->on_ab_add_clicked(); break;
-        case 27: _t->on_ab_back_clicked(); break;
+        case 19: { int _r = _t->totalHrs();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 20: _t->UpdateComboBox(); break;
+        case 21: { bool _r = _t->CheckFreeHours((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 22: _t->UpdateFreeDatabase((*reinterpret_cast< QComboBox*(*)>(_a[1])),(*reinterpret_cast< QComboBox*(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
+        case 23: _t->on_sb_apply_clicked(); break;
+        case 24: _t->on_sb_back_clicked(); break;
+        case 25: { bool _r = _t->IsNumber((*reinterpret_cast< const QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 26: { bool _r = _t->IsUnique((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QList<Project>(*)>(_a[2])),(*reinterpret_cast< const QList<Project>(*)>(_a[3])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 27: _t->on_ab_add_clicked(); break;
+        case 28: _t->on_ab_back_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 20:
+        case 21:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 1:
@@ -223,7 +226,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QComboBox* >(); break;
             }
             break;
-        case 21:
+        case 22:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 1:
@@ -237,7 +240,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
 
 const QMetaObject MainWindow::staticMetaObject = {
     { &QMainWindow::staticMetaObject, qt_meta_stringdata_MainWindow.data,
-      qt_meta_data_MainWindow,  qt_static_metacall, nullptr, nullptr}
+      qt_meta_data_MainWindow,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
@@ -248,7 +251,7 @@ const QMetaObject *MainWindow::metaObject() const
 
 void *MainWindow::qt_metacast(const char *_clname)
 {
-    if (!_clname) return nullptr;
+    if (!_clname) return Q_NULLPTR;
     if (!strcmp(_clname, qt_meta_stringdata_MainWindow.stringdata0))
         return static_cast<void*>(const_cast< MainWindow*>(this));
     return QMainWindow::qt_metacast(_clname);
@@ -260,15 +263,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 28)
+        if (_id < 29)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 28;
+        _id -= 29;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 28)
+        if (_id < 29)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 28;
+        _id -= 29;
     }
     return _id;
 }
-QT_WARNING_POP
 QT_END_MOC_NAMESPACE

@@ -31,6 +31,23 @@ MainWindow::MainWindow(QWidget *parent) :
     //Initializes free hours combo boxes
     UpdateComboBox();
 
+    //Populates the calendar with Xs.
+    //VERY BUGGY. Every day from 12-1am is marked as "Free". Use with caution.
+    /*
+    ui->sc_monFrom->setCurrentIndex(0);
+    ui->sc_monTo->setCurrentIndex(1);
+    UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "MON", 1);
+    UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "TUE", 2);
+    UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "WED", 3);
+    UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "THU", 4);
+    UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "FRI", 5);
+    UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "SAT", 6);
+    UpdateFreeDatabase(ui->sc_monFrom, ui->sc_monTo, "SUN", 7);
+    ui->sc_monFrom->setCurrentIndex(0);
+    ui->sc_monTo->setCurrentIndex(0);
+    */
+
+
     //Updates (un)scheduled projects from database
     UpdateUnscheduledDb();
     UpdateScheduledDb();
@@ -545,6 +562,11 @@ void MainWindow::on_cb_schedule_clicked() {
     QMessageBox msgBox;
 
     if (row >= 0 && notScheduled) {
+        if(unscheduledList.at(row).GetTotalHours() > totalHrs()){ //Error handling if task time exceeds available time
+            msgBox.setText(" ERROR - Not enough hours." + QString::number(totalHrs()));
+            msgBox.exec();
+            return;
+        }
         disconnect(ui->ct_unscheduled->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onDataChangedUnscheduled(const QModelIndex&)));
         disconnect(ui->ct_scheduled->model(), SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(onDataChangedScheduled(const QModelIndex&)));
 
@@ -882,34 +904,43 @@ void MainWindow::on_ab_add_clicked() {
     QString setName = ui->al_name->text();
     QString setHours = ui->al_hours->text();
     QString setDesc = ui->al_desc->text();
+    int setDue = ui->al_due->currentIndex();
 
-    //Error checks name (must be unique)
-    if (IsUnique(setName, unscheduledList, scheduledList)) {
-        //Error checks hours (must be numerical above 0)
-        if (setHours == "0") {
-            msgBox.setText("ERROR - Hours must be at least 1!");
-            msgBox.exec();
-        }
-        else if (!IsNumber(setHours) || setHours == "") {
-            msgBox.setText("ERROR - Hours must be numerical and positive!");
-            msgBox.exec();
+    //Error checks due date (must be after current day)
+    if((curDay - 1) <= setDue){
+        //Error checks name (must be unique)
+        if (IsUnique(setName, unscheduledList, scheduledList)) {
+            //Error checks hours (must be numerical above 0)
+            if (setHours == "0") {
+                msgBox.setText("ERROR - Hours must be at least 1!");
+                msgBox.exec();
+            }
+            else if (!IsNumber(setHours) || setHours == "") {
+                msgBox.setText("ERROR - Hours must be numerical and positive!");
+                msgBox.exec();
+            }
+            else {
+                Project project(setName, setHours.toInt(), setDesc);
+                project.setDue(setDue);
+                unscheduledList.append(project);
+
+                QSqlQuery query(db);
+                query.exec("INSERT INTO unscheduled (NAME, HOURS, DESC) "
+                           "VALUES ('" + setName + "', '" + setHours + "', '" + setDesc + "')");
+
+                col = -1;
+
+                UpdateCalendarTable();
+                ui->stackedWidget->setCurrentIndex(1);
+            }
         }
         else {
-            Project project(setName, setHours.toInt(), setDesc);
-            unscheduledList.append(project);
-
-            QSqlQuery query(db);
-            query.exec("INSERT INTO unscheduled (NAME, HOURS, DESC) "
-                       "VALUES ('" + setName + "', '" + setHours + "', '" + setDesc + "')");
-
-            col = -1;
-
-            UpdateCalendarTable();
-            ui->stackedWidget->setCurrentIndex(1);
+            msgBox.setText("ERROR - Name must be unique!");
+            msgBox.exec();
         }
     }
-    else {
-        msgBox.setText("ERROR - Name must be unique!");
+    else{
+        msgBox.setText("ERROR - Due date must occur after current date!");
         msgBox.exec();
     }
 }
@@ -920,3 +951,14 @@ void MainWindow::on_ab_back_clicked() {
     ui->stackedWidget->setCurrentIndex(1);
 }
 
+//total amount of free hours
+int MainWindow::totalHrs(){
+    int hrs = 0;
+    for(int dayNum = curDay; dayNum <= 7; dayNum++){
+        for (int i = 1; i <= 24; i++) {
+            if (ui->ct_table->model()->data(ui->ct_table->model()->index(i-1,dayNum)).toString() == "")
+                hrs++;
+        }
+    }
+    return hrs;
+}

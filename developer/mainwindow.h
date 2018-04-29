@@ -62,6 +62,7 @@ class MainWindow : public QMainWindow {
         void on_cb_deleteUn_clicked();  //button delete unscheduled task clicked
         void on_cb_deleteSc_clicked();  //button delete scheduled task clicked
         void on_cb_back_clicked();      //button back clicked
+        int totalHrs();                //Total free hours returned
 
         //SET HOURS
         void UpdateComboBox();                   //updates hours in combo boxes

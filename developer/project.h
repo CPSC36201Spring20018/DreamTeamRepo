@@ -18,6 +18,7 @@ class Project {
         void SetTotalHours(int totalHours);
         void SetRemHours(int remHours);
         void SetDateDue(QString date);
+        void setDue(int due);
 
         void DecRemHours();
     private:
@@ -26,6 +27,7 @@ class Project {
         int totalHours;
         int remHours;
         QString dateDue;
+        int due;
 };
 
 #endif

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -99,11 +99,13 @@ public:
     QWidget *formLayoutWidget;
     QFormLayout *formLayout;
     QLabel *label_26;
-    QLabel *label_27;
     QLineEdit *al_name;
     QLineEdit *al_desc;
     QLineEdit *al_hours;
     QLabel *label_28;
+    QComboBox *al_due;
+    QLabel *label_6;
+    QLabel *label_27;
     QPushButton *ab_back;
     QPushButton *ab_add;
 
@@ -831,7 +833,7 @@ public:
         label_7->setGeometry(QRect(440, 10, 63, 20));
         formLayoutWidget = new QWidget(add);
         formLayoutWidget->setObjectName(QStringLiteral("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(390, 130, 160, 92));
+        formLayoutWidget->setGeometry(QRect(390, 90, 167, 121));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -841,11 +843,6 @@ public:
         label_26->setObjectName(QStringLiteral("label_26"));
 
         formLayout->setWidget(0, QFormLayout::LabelRole, label_26);
-
-        label_27 = new QLabel(formLayoutWidget);
-        label_27->setObjectName(QStringLiteral("label_27"));
-
-        formLayout->setWidget(1, QFormLayout::LabelRole, label_27);
 
         al_name = new QLineEdit(formLayoutWidget);
         al_name->setObjectName(QStringLiteral("al_name"));
@@ -867,6 +864,21 @@ public:
 
         formLayout->setWidget(2, QFormLayout::LabelRole, label_28);
 
+        al_due = new QComboBox(formLayoutWidget);
+        al_due->setObjectName(QStringLiteral("al_due"));
+
+        formLayout->setWidget(3, QFormLayout::FieldRole, al_due);
+
+        label_6 = new QLabel(formLayoutWidget);
+        label_6->setObjectName(QStringLiteral("label_6"));
+
+        formLayout->setWidget(3, QFormLayout::LabelRole, label_6);
+
+        label_27 = new QLabel(formLayoutWidget);
+        label_27->setObjectName(QStringLiteral("label_27"));
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, label_27);
+
         ab_back = new QPushButton(add);
         ab_back->setObjectName(QStringLiteral("ab_back"));
         ab_back->setGeometry(QRect(860, 430, 84, 28));
@@ -878,7 +890,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(3);
+        stackedWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -886,54 +898,65 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        hb_view->setText(QApplication::translate("MainWindow", "View Calendar", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        hb_view->setText(QApplication::translate("MainWindow", "View Calendar", 0));
         textEdit->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:24pt;\">Smart Calendar</span></p></body></html>", Q_NULLPTR));
-        hb_exit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
-        cb_add->setText(QApplication::translate("MainWindow", "Add Task", Q_NULLPTR));
-        label->setText(QApplication::translate("MainWindow", "Current Time:", Q_NULLPTR));
-        cb_set->setText(QApplication::translate("MainWindow", "Set Hours", Q_NULLPTR));
-        label_29->setText(QApplication::translate("MainWindow", "SCHEDULED:", Q_NULLPTR));
-        cb_schedule->setText(QApplication::translate("MainWindow", "Schedule", Q_NULLPTR));
-        cb_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
-        label_30->setText(QApplication::translate("MainWindow", "UNSCHEDULED:", Q_NULLPTR));
-        cb_deleteUn->setText(QApplication::translate("MainWindow", "Delete", Q_NULLPTR));
-        cb_deleteSc->setText(QApplication::translate("MainWindow", "Delete", Q_NULLPTR));
-        sb_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
-        sc_label1->setText(QApplication::translate("MainWindow", "Set Hours Free", Q_NULLPTR));
-        label_24->setText(QApplication::translate("MainWindow", "SAT", Q_NULLPTR));
-        label_3->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
-        label_19->setText(QApplication::translate("MainWindow", "MON", Q_NULLPTR));
-        label_21->setText(QApplication::translate("MainWindow", "WED", Q_NULLPTR));
-        label_20->setText(QApplication::translate("MainWindow", "TUE", Q_NULLPTR));
-        label_23->setText(QApplication::translate("MainWindow", "FRI", Q_NULLPTR));
-        label_22->setText(QApplication::translate("MainWindow", "THU", Q_NULLPTR));
-        label_18->setText(QApplication::translate("MainWindow", "Hours Free", Q_NULLPTR));
-        label_2->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
-        label_25->setText(QApplication::translate("MainWindow", "SUN", Q_NULLPTR));
-        label_5->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
-        label_9->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
-        label_4->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
-        label_8->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
-        label_10->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
-        label_11->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
-        label_12->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
-        label_13->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
-        label_15->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
-        label_14->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
-        label_17->setText(QApplication::translate("MainWindow", "From:", Q_NULLPTR));
-        label_16->setText(QApplication::translate("MainWindow", "To:", Q_NULLPTR));
-        sb_apply->setText(QApplication::translate("MainWindow", "Apply", Q_NULLPTR));
-        label_7->setText(QApplication::translate("MainWindow", "Add Task", Q_NULLPTR));
-        label_26->setText(QApplication::translate("MainWindow", "Name: ", Q_NULLPTR));
-        label_27->setText(QApplication::translate("MainWindow", "Description", Q_NULLPTR));
-        label_28->setText(QApplication::translate("MainWindow", "Total Hours", Q_NULLPTR));
-        ab_back->setText(QApplication::translate("MainWindow", "Back", Q_NULLPTR));
-        ab_add->setText(QApplication::translate("MainWindow", "Add", Q_NULLPTR));
+"</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Cantarell'; font-size:24pt;\">Smart Calendar</span></p></body></html>", 0));
+        hb_exit->setText(QApplication::translate("MainWindow", "Exit", 0));
+        cb_add->setText(QApplication::translate("MainWindow", "Add Task", 0));
+        label->setText(QApplication::translate("MainWindow", "Current Time:", 0));
+        cb_set->setText(QApplication::translate("MainWindow", "Set Hours", 0));
+        label_29->setText(QApplication::translate("MainWindow", "SCHEDULED:", 0));
+        cb_schedule->setText(QApplication::translate("MainWindow", "Schedule", 0));
+        cb_back->setText(QApplication::translate("MainWindow", "Back", 0));
+        label_30->setText(QApplication::translate("MainWindow", "UNSCHEDULED:", 0));
+        cb_deleteUn->setText(QApplication::translate("MainWindow", "Delete", 0));
+        cb_deleteSc->setText(QApplication::translate("MainWindow", "Delete", 0));
+        sb_back->setText(QApplication::translate("MainWindow", "Back", 0));
+        sc_label1->setText(QApplication::translate("MainWindow", "Set Hours Free", 0));
+        label_24->setText(QApplication::translate("MainWindow", "SAT", 0));
+        label_3->setText(QApplication::translate("MainWindow", "To:", 0));
+        label_19->setText(QApplication::translate("MainWindow", "MON", 0));
+        label_21->setText(QApplication::translate("MainWindow", "WED", 0));
+        label_20->setText(QApplication::translate("MainWindow", "TUE", 0));
+        label_23->setText(QApplication::translate("MainWindow", "FRI", 0));
+        label_22->setText(QApplication::translate("MainWindow", "THU", 0));
+        label_18->setText(QApplication::translate("MainWindow", "Hours Free", 0));
+        label_2->setText(QApplication::translate("MainWindow", "From:", 0));
+        label_25->setText(QApplication::translate("MainWindow", "SUN", 0));
+        label_5->setText(QApplication::translate("MainWindow", "From:", 0));
+        label_9->setText(QApplication::translate("MainWindow", "From:", 0));
+        label_4->setText(QApplication::translate("MainWindow", "To:", 0));
+        label_8->setText(QApplication::translate("MainWindow", "To:", 0));
+        label_10->setText(QApplication::translate("MainWindow", "To:", 0));
+        label_11->setText(QApplication::translate("MainWindow", "From:", 0));
+        label_12->setText(QApplication::translate("MainWindow", "To:", 0));
+        label_13->setText(QApplication::translate("MainWindow", "From:", 0));
+        label_15->setText(QApplication::translate("MainWindow", "From:", 0));
+        label_14->setText(QApplication::translate("MainWindow", "To:", 0));
+        label_17->setText(QApplication::translate("MainWindow", "From:", 0));
+        label_16->setText(QApplication::translate("MainWindow", "To:", 0));
+        sb_apply->setText(QApplication::translate("MainWindow", "Apply", 0));
+        label_7->setText(QApplication::translate("MainWindow", "Add Task", 0));
+        label_26->setText(QApplication::translate("MainWindow", "Name: ", 0));
+        label_28->setText(QApplication::translate("MainWindow", "Total Hours", 0));
+        al_due->clear();
+        al_due->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "Monday", 0)
+         << QApplication::translate("MainWindow", "Tuesday", 0)
+         << QApplication::translate("MainWindow", "Wednesday", 0)
+         << QApplication::translate("MainWindow", "Thursday", 0)
+         << QApplication::translate("MainWindow", "Friday", 0)
+         << QApplication::translate("MainWindow", "Saturday", 0)
+         << QApplication::translate("MainWindow", "Sunday", 0)
+        );
+        label_6->setText(QApplication::translate("MainWindow", "Due Date", 0));
+        label_27->setText(QApplication::translate("MainWindow", "Description", 0));
+        ab_back->setText(QApplication::translate("MainWindow", "Back", 0));
+        ab_add->setText(QApplication::translate("MainWindow", "Add", 0));
     } // retranslateUi
 
 };

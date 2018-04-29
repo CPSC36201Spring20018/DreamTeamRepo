@@ -562,8 +562,8 @@ void MainWindow::on_cb_schedule_clicked() {
     QMessageBox msgBox;
 
     if (row >= 0 && notScheduled) {
-        if(unscheduledList.at(row).GetTotalHours() > totalHrs()){ //Error handling if task time exceeds available time
-            msgBox.setText(" ERROR - Not enough hours." + QString::number(totalHrs()));
+        if(unscheduledList.at(row).GetTotalHours() > totalHrsFrom(unscheduledList.at(row).GetDateDue()) ){
+            msgBox.setText(" ERROR - Not enough hours. Hours of free time: " + QString::number(totalHrsFrom(unscheduledList.at(row).GetDateDue())));
             msgBox.exec();
             return;
         }
@@ -955,7 +955,35 @@ void MainWindow::on_ab_back_clicked() {
 int MainWindow::totalHrs(){
     int hrs = 0;
     for(int dayNum = curDay; dayNum <= 7; dayNum++){
-        for (int i = 1; i <= 24; i++) {
+        for (int i = (curHour.hour()+1); i <= 24; i++) {
+            if (ui->ct_table->model()->data(ui->ct_table->model()->index(i-1,dayNum)).toString() == "")
+                hrs++;
+        }
+    }
+    return hrs;
+}
+
+//gets total amount of hours from a certain weekday
+int MainWindow::totalHrsFrom(QString day){
+    int startH = 0;
+    if (day == "Monday"){
+        startH = 1;
+    } else if(day == "Tuesday") {
+        startH = 2;
+    } else if (day == "Wednesday"){
+        startH = 3;
+    } else if (day == "Thursday"){
+        startH = 4;
+    } else if (day == "Friday"){
+        startH = 5;
+    } else if (day == "Saturday"){
+        startH = 6;
+    } else if (day == "Sunday"){
+        startH = 7;
+    }
+    int hrs = 0;
+    for(int dayNum = curDay; dayNum <= startH; dayNum++){
+        for (int i = (curHour.hour()+1); i <= 24; i++) {
             if (ui->ct_table->model()->data(ui->ct_table->model()->index(i-1,dayNum)).toString() == "")
                 hrs++;
         }
